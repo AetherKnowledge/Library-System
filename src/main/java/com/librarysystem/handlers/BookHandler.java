@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import com.librarysystem.LibrarySystem;
 import com.librarysystem.objects.Book;
 import com.librarysystem.objects.Category;
+import com.librarysystem.objects.ui.PalleteColors;
 
 public final class BookHandler implements ObjectHandler{
     private static Connection con;
@@ -49,6 +50,10 @@ public final class BookHandler implements ObjectHandler{
             java.sql.Date datePublished = java.sql.Date.valueOf(book.getDatePublished());
         
             String queryRegister = "INSERT into book(bookID, title, author, categoryID, description, bookStatus, imageData, datePublished, lastUpdated, totalAmmount, ammountLeft, maxDaysAdminBorrowed, maxDaysUserBorrowed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            if (book.isImageDefault()) {
+                imageData = null;
+            }
             
             PreparedStatement st = con.prepareStatement(queryRegister);
             st.setString(1, book.getBookID());
@@ -94,7 +99,14 @@ public final class BookHandler implements ObjectHandler{
         
         String query = "UPDATE book SET title = ?, author = ?, categoryID = ?, description = ?, bookStatus = ?, imageData = ?,maxDaysAdminBorrowed = ?, maxDaysUserBorrowed = ?, totalAmmount = ?, ammountLeft = ?, bookID = ? WHERE bookID = ?";
         
+        
+        
         try {
+            byte[] imageData = null;
+            if (!book.isImageDefault()) {
+                imageData = Utilities.serializeImage(book.getBookIcon());
+            }
+            
             PreparedStatement st;
             st = con.prepareCall(query);
             st.setString(1, book.getTitle());
@@ -102,7 +114,7 @@ public final class BookHandler implements ObjectHandler{
             st.setString(3, book.getCategoryID());
             st.setString(4, book.getDescription());
             st.setString(5, book.getBookStatus().name());
-            st.setBytes(6, Utilities.serializeImage(book.getBookIcon()));
+            st.setBytes(6, imageData);
             st.setInt(7, book.getMaxDaysAdminBorrowed());
             st.setInt(8, book.getMaxDaysUserBorrowed());
             st.setInt(9, book.getTotalAmmount());
@@ -186,8 +198,16 @@ public final class BookHandler implements ObjectHandler{
         int totalAmmount = rs.getInt("totalAmmount");
         int ammountLeft = rs.getInt("ammountLeft");
         System.out.println(lastUpdated);
+        
+        Image img;
+        boolean isDefaultImage = imgArray == null;
+        if (isDefaultImage) {
+            img = Utilities.getImage("/textures/noImage.png").getImage();
+            img = Utilities.changeImageColor(img, PalleteColors.DROPDOWN);
+        }
+        else img = Utilities.deserializeImage(imgArray);
 
-        return new Book(Utilities.deserializeImage(imgArray),bookID, title, author, categoryID, description, availability,datePublished,lastUpdated,maxDaysAdminBorrowed ,maxDaysUserBorrowed,totalAmmount,ammountLeft);
+        return new Book(img,bookID, title, author, categoryID, description, availability,datePublished,lastUpdated,maxDaysAdminBorrowed ,maxDaysUserBorrowed,totalAmmount,ammountLeft,isDefaultImage);
     }
     
     public static boolean hasBooksUpdated(){
@@ -258,10 +278,10 @@ public final class BookHandler implements ObjectHandler{
         LocalDate lorDate = LocalDate.of(1954, Month.JULY, 29);
         LocalDate aotDate = LocalDate.of(2009, Month.SEPTEMBER, 9);
         String description = "The Fellowship of the Ring is the first of three volumes in The Lord of the Rings, an epic set in the fictional world of Middle-earth. The Lord of the Rings is an entity named Sauron, the Dark Lord, who long ago lost the One Ring that contains much of his power. His overriding desire is to reclaim the Ring and use it to enslave all of Middle-earth.";
-        Book t = new Book(lor, "The Fellowship of the Ring", "The Fellowship of the Ring", "J.R.R Tolkien", "800", description, Book.Availability.AVAILABLE, lorDate, Timestamp.valueOf(LocalDateTime.now()),10, 10, 10, 10);
+        Book t = new Book(lor, "The Fellowship of the Ring", "The Fellowship of the Ring", "J.R.R Tolkien", "800", description, Book.Availability.AVAILABLE, lorDate, Timestamp.valueOf(LocalDateTime.now()),10, 10, 10, 10,false);
         booksList.add(t);
         String description2 = "Centuries ago, mankind was slaughtered to near extinction by monstrous humanoid creatures called Titans, forcing humans to hide in fear behind enormous concentric walls. What makes these giants truly terrifying is that their taste for human flesh is not born out of hunger but what appears to be out of pleasure. To ensure their survival, the remnants of humanity began living within defensive barriers, resulting in one hundred years without a single titan encounter. However, that fragile calm is soon shattered when a colossal Titan manages to breach the supposedly impregnable outer wall, reigniting the fight for survival against the man-eating abominations.\n\nAfter witnessing a horrific personal loss at the hands of the invading creatures, Eren Yeager dedicates his life to their eradication by enlisting into the Survey Corps, an elite military unit that combats the merciless humanoids outside the protection of the walls. Eren, his adopted sister Mikasa Ackerman, and his childhood friend Armin Arlert join the brutal war against the Titans and race to discover a way of defeating them before the last walls are breached.\n";
-        Book test2 = new Book(aot, "Attack on Titan", "Attack on Titan", "Hajime Isayama", "200", description2, Book.Availability.AVAILABLE, aotDate, Timestamp.valueOf(LocalDateTime.now()),10, 10, 10, 10);
+        Book test2 = new Book(aot, "Attack on Titan", "Attack on Titan", "Hajime Isayama", "200", description2, Book.Availability.AVAILABLE, aotDate, Timestamp.valueOf(LocalDateTime.now()),10, 10, 10, 10,false);
         booksList.add(test2);
         CategoryHandler.getCategoryList().get(2).addBook();
         CategoryHandler.getCategoryList().get(8).addBook();

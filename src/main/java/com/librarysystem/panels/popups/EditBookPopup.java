@@ -806,7 +806,7 @@ public class EditBookPopup extends JDialog{
         bookIconImg = bookIconImg.getScaledInstance(130, 174, Image.SCALE_SMOOTH);
         System.out.println("");
         
-        Book newBook = new Book(new ImageIcon(bookIconImg).getImage(),bookId,title,author,tagID,description,bookStatus,dateSelected,Timestamp.valueOf(LocalDateTime.now()),maxDaysAdminBorrowed,maxDaysUserBorrowed,totalAmmount,ammountLeft);
+        Book newBook = new Book(new ImageIcon(bookIconImg).getImage(),bookId,title,author,tagID,description,bookStatus,dateSelected,Timestamp.valueOf(LocalDateTime.now()),maxDaysAdminBorrowed,maxDaysUserBorrowed,totalAmmount,ammountLeft,book.isImageDefault());
 
         BookHandler.updateBook(newBook, book.getBookID());
         
@@ -857,6 +857,7 @@ public class EditBookPopup extends JDialog{
             bookIconLabel.setIcon(new ImageIcon(bookIconImg));
             bookIconLabel.setBorder(new RoundedBorder(8,1));
             changedImage = true;
+            book.setIsDefaultImage(false);
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
         } else {
             System.out.println("No file selected.");
