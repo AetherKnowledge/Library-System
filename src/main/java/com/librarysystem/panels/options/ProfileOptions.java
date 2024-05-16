@@ -46,7 +46,6 @@ public class ProfileOptions extends javax.swing.JPanel {
     private Image emailIcon = Utilities.getImage("/textures/emailIcon.png").getImage();
     private Image passwordIcon = Utilities.getImage("/textures/passwordIcon.png").getImage();
     private Image backImg = Utilities.getImage("/textures/back.png").getImage();
-
     
     public ProfileOptions(User user) {
         showPasswordIcon = showPasswordIcon.getScaledInstance(23, 23, Image.SCALE_SMOOTH);
@@ -573,6 +572,7 @@ public class ProfileOptions extends javax.swing.JPanel {
             userImg = new ImageIcon(selectedFile.getAbsolutePath()).getImage();
             userImg = userImg.getScaledInstance(userImgLabel.getWidth(), userImgLabel.getHeight(), Image.SCALE_SMOOTH);
             userImgLabel.setIcon(new ImageIcon(userImg));
+            user.setIsImageDefault(false);
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
         } else {
             System.out.println("No file selected.");
@@ -644,7 +644,7 @@ public class ProfileOptions extends javax.swing.JPanel {
         }
 
         password = Utilities.toBcrypt(passwordTextField.getPassword());
-        User newUser = new User(User.UserType.USER, email, password,fullName,studentNum,userImg,user.getDateJoined(),LocalDateTime.now());
+        User newUser = new User(User.UserType.USER, email, password,fullName,studentNum,userImg,user.getDateJoined(),LocalDateTime.now(),user.isImageDefault());
         
         UserHandler.updateUser(newUser,user.getEmail());
 

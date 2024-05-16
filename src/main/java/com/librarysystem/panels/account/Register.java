@@ -4,7 +4,6 @@ package com.librarysystem.panels.account;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -12,7 +11,6 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -653,13 +651,15 @@ public class Register extends javax.swing.JPanel {
 
         if (!changedImage) {
             String noSpaces = fullName.replace(" ", "");
-            userImg = createUserLogo(Character.toUpperCase(noSpaces.charAt(0)));
+            userImg = Utilities.createUserLogo(Character.toUpperCase(noSpaces.charAt(0)));
             //testImage(userImg);
         }
+        
+        System.out.println(changedImage);
 
         password = Utilities.toBcrypt(passwordTextField.getPassword());
 
-        UserHandler.addUser(new User(User.UserType.USER, email, password,fullName,studentNum,userImg,LocalDateTime.now(),LocalDateTime.now()));
+        UserHandler.addUser(new User(User.UserType.USER, email, password,fullName,studentNum,userImg,LocalDateTime.now(),LocalDateTime.now(),!changedImage));
         userImg = defaultImage;
         changedImage = false;
 
@@ -701,35 +701,6 @@ public class Register extends javax.swing.JPanel {
 
         Entry.switchPanel(Entry.entryPanels.LOGIN);
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private Image createUserLogo(char character){
-        int width = 256;
-        int height = 256;
-        Color bgColor = PalleteColors.SIDEBAR_MAIN_COLOR;
-        Color letterColor = Color.WHITE;
-        Font font = new Font("Roboto",Font.BOLD,(int)(width*0.8));
-        
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2D = image.createGraphics();
-        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        
-        g2D.setColor(bgColor);
-        g2D.fillRect(0, 0, width, width);
-        
-        g2D.setColor(letterColor);
-        g2D.setFont(font);
-        
-        FontMetrics fm = g2D.getFontMetrics();
-        int charWidth = fm.charWidth(character);
-        int charHeight = fm.getHeight();
-
-        int x = (width - charWidth) / 2;
-        int y = ((height - charHeight) / 2) + fm.getAscent();
-        
-        g2D.drawChars(new char[]{character}, 0, 1, x, y);
-        
-        return new ImageIcon(image).getImage();
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField emailTextField;

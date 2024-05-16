@@ -1,6 +1,7 @@
 
 package com.librarysystem.objects;
 
+import com.librarysystem.handlers.Utilities;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -25,8 +26,9 @@ public class User implements Serializable{
     private String fullName;
     private final LocalDateTime dateJoined;
     private final LocalDateTime lastUpdated;
+    private boolean isImageDefault;
     
-    public User(UserType userType, String email, String password,String fullName,String studentNumber, Image icon, LocalDateTime dateJoined, LocalDateTime lastUpdated){
+    public User(UserType userType, String email, String password,String fullName,String studentNumber, Image icon, LocalDateTime dateJoined, LocalDateTime lastUpdated, boolean isImageDefault){
         this.dateJoined = dateJoined;
         this.userType = userType;
         this.email = email;
@@ -34,6 +36,7 @@ public class User implements Serializable{
         this.fullName = fullName;
         this.studentNumber = studentNumber;
         this.lastUpdated = lastUpdated;
+        this.isImageDefault = isImageDefault;
         
         try{
             imageData = serializeImage(icon);
@@ -120,6 +123,14 @@ public class User implements Serializable{
 
     public LocalDateTime getLastUpdated() {
         return lastUpdated;
+    }
+
+    public boolean isImageDefault() {
+        return isImageDefault;
+    }
+
+    public void setIsImageDefault(boolean isImageDefault) {
+        this.isImageDefault = isImageDefault;
     }
     
     public enum UserType{

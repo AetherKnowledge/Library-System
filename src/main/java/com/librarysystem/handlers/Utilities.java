@@ -37,10 +37,14 @@ import com.librarysystem.objects.Category;
 import com.librarysystem.objects.IssuedBook;
 import com.librarysystem.objects.IssuedBook.BorrowedBookStatus;
 import com.librarysystem.objects.User;
+import com.librarysystem.objects.ui.PalleteColors;
 import com.librarysystem.panels.account.UserPanel;
 import com.librarysystem.panels.books.BookPanel;
 import com.librarysystem.panels.books.IssuedBooksPanel;
 import com.librarysystem.panels.category.CategoryPanel;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.RenderingHints;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashSet;
@@ -319,6 +323,35 @@ public class Utilities {
         } catch (UnknownHostException e) {
             return false;
         }
+    }
+    
+    public static Image createUserLogo(char character){
+        int width = 256;
+        int height = 256;
+        Color bgColor = PalleteColors.SIDEBAR_MAIN_COLOR;
+        Color letterColor = Color.WHITE;
+        Font font = new Font("Roboto",Font.BOLD,(int)(width*0.8));
+        
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2D = image.createGraphics();
+        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        
+        g2D.setColor(bgColor);
+        g2D.fillRect(0, 0, width, width);
+        
+        g2D.setColor(letterColor);
+        g2D.setFont(font);
+        
+        FontMetrics fm = g2D.getFontMetrics();
+        int charWidth = fm.charWidth(character);
+        int charHeight = fm.getHeight();
+
+        int x = (width - charWidth) / 2;
+        int y = ((height - charHeight) / 2) + fm.getAscent();
+        
+        g2D.drawChars(new char[]{character}, 0, 1, x, y);
+        
+        return new ImageIcon(image).getImage();
     }
     
 }

@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import com.librarysystem.LibrarySystem;
+import java.awt.Image;
 import java.util.NoSuchElementException;
 
 public final class UserHandler implements ObjectHandler{
@@ -51,7 +52,11 @@ public final class UserHandler implements ObjectHandler{
             fullName = user.getFullName();
             userType = user.getUserType().name();
             status = 1;
-
+            
+            if (user.isImageDefault()) {
+                imageData = null;
+            }
+            
             String queryRegister = "INSERT into user(email, password, imageData, studNum, fullName, dateJoined, userType, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             
             PreparedStatement st = con.prepareStatement(queryRegister);
@@ -84,12 +89,17 @@ public final class UserHandler implements ObjectHandler{
 
         String query = "UPDATE user SET email = ?, password = ?, fullName = ?, studNum = ?, imageData = ? WHERE email = ?";
         try {
+            byte[] imageData = null;
+            if (!user.isImageDefault()) {
+                imageData = Utilities.serializeImage(user.getIcon());
+            }
+            
             PreparedStatement st = con.prepareCall(query);
             st.setString(1, user.getEmail());
             st.setString(2, user.getPassword());
             st.setString(3, user.getFullName());
             st.setString(4, user.getStudentNumber());
-            st.setBytes(5, Utilities.serializeImage(user.getIcon()));
+            st.setBytes(5, imageData);
             st.setString(6, oldEmail);
             
             usersList.stream().filter(oldUser -> oldUser.getEmail().equals(user.getEmail())).collect(Collectors.toList()).forEach(oldUser -> oldUser = user);
@@ -171,7 +181,16 @@ public final class UserHandler implements ObjectHandler{
         }
         LocalDateTime lastUpdated = rs.getTimestamp("lastUpdated").toLocalDateTime();
         
-        return new User(userType, email, password, fullName, studNum, Utilities.deserializeImage(imgArray), dateJoined,lastUpdated);
+        boolean isImageDefault = imgArray == null;
+        Image userImg;
+        if (!isImageDefault) {
+            userImg = Utilities.deserializeImage(imgArray);
+        }
+        else{
+            userImg = Utilities.createUserLogo(fullName.trim().toUpperCase().charAt(0));
+        }
+        
+        return new User(userType, email, password, fullName, studNum, userImg, dateJoined,lastUpdated, isImageDefault);
     }
     
     public static User searchUser(String email){
@@ -286,8 +305,8 @@ public final class UserHandler implements ObjectHandler{
     
     public static void addStandardUsers() {
         ImageIcon ayaya = Utilities.getImage("/textures/ayaya.png");
-        usersList.add(new User(User.UserType.ADMIN, "admin", Utilities.toBcrypt("admin".toCharArray()), "admin", "69420", ayaya.getImage(), LocalDateTime.now(), LocalDateTime.now()));
-        usersList.add(new User(User.UserType.USER, "user", Utilities.toBcrypt("user".toCharArray()), "user", "12345678", ayaya.getImage(), LocalDateTime.now(), LocalDateTime.now()));
+        usersList.add(new User(User.UserType.ADMIN, "admin", Utilities.toBcrypt("admin".toCharArray()), "admin", "69420", ayaya.getImage(), LocalDateTime.now(), LocalDateTime.now(),false));
+        usersList.add(new User(User.UserType.USER, "user", Utilities.toBcrypt("user".toCharArray()), "user", "12345678", ayaya.getImage(), LocalDateTime.now(), LocalDateTime.now(),false));
         for (User user : usersList) {
             addUser(user);
         }
@@ -303,7 +322,7 @@ public final class UserHandler implements ObjectHandler{
             }
         }
         catch (NoSuchElementException e){
-            System.out.println("Invalid User or Password");
+            JOptionPane.showMessageDialog(new JFrame(), "Invalid User or Password");
         }
         return false;
     }
