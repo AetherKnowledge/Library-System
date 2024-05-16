@@ -31,7 +31,7 @@ public class MyBookList extends MyPanel{
     private Image sortImg = Utilities.getImage("/textures/sort.png").getImage();
     private Object selectedCategory = "None";
     private final ArrayList<BookPanel> currentBookList = new ArrayList<>();
-    private final ArrayList<BookPanel> showBooks = new ArrayList<>();
+    private final ArrayList<BookPanel> shownBooks = new ArrayList<>();
     private final ArrayList<Category> categories = new ArrayList<>();
     
     public MyBookList() {
@@ -87,7 +87,7 @@ public class MyBookList extends MyPanel{
 
             for (BookPanel bookPanel : currentBookList) {
                 bookList.add(bookPanel);
-                showBooks.add(bookPanel);
+                shownBooks.add(bookPanel);
                 if (!categories.contains(bookPanel.getCategory())) {
                     categories.add(bookPanel.getCategory());
                 }
@@ -121,8 +121,12 @@ public class MyBookList extends MyPanel{
         bottomPanel.setSize(getWidth() - 70, getHeight() - 190);   
         
         int bookListWidth = bookList.getWidth() - 15;
-        int bookListLayers = (showBooks.size() * 285)/bookListWidth + 1;
+        int bookListLayers = (shownBooks.size() * 285)/bookListWidth + 1;
         int bookListHeight = (bookListLayers * (270 + 35));
+        
+        if (!currentBookList.isEmpty()) {
+            bookListHeight = (bookListLayers * (currentBookList.get(0).getPreferredSize().height + 35));
+        }
         
         bookList.setPreferredSize(new Dimension(bookListWidth, bookListHeight));
         this.revalidate();
@@ -473,7 +477,7 @@ public class MyBookList extends MyPanel{
     
 
     private void search(){
-        showBooks.clear();
+        shownBooks.clear();
         
         for (BookPanel bookPanel : currentBookList) {
             boolean searchContainsTitle = bookPanel.getTitle().toLowerCase().contains(bookNameSearch.getText().toLowerCase());
@@ -488,7 +492,7 @@ public class MyBookList extends MyPanel{
             }
             
             if (searchContainsTitle && searchContainsTags) {
-                showBooks.add(bookPanel);
+                shownBooks.add(bookPanel);
             }
         }
         
@@ -521,13 +525,13 @@ public class MyBookList extends MyPanel{
         bookList.repaint();
         
         if (sortBy.getSelectedItem().equals("A-Z")) {
-            showBooks.sort(Comparator.comparing(BookPanel::getTitle));
+            shownBooks.sort(Comparator.comparing(BookPanel::getTitle));
         }
         else if (sortBy.getSelectedItem().equals("Z-A")) {
-            showBooks.sort(Comparator.comparing(BookPanel::getTitle).reversed());
+            shownBooks.sort(Comparator.comparing(BookPanel::getTitle).reversed());
         }
         
-        for (BookPanel panel : showBooks) {
+        for (BookPanel panel : shownBooks) {
             bookList.add(panel);
         }
         

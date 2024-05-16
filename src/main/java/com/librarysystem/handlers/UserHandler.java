@@ -288,7 +288,7 @@ public final class UserHandler implements ObjectHandler{
     }  
     
     public static int getOnlineCount(){
-        String query = "SELECT status FROM USER ";
+        String query = "SELECT status FROM user ";
         usersUpdating = true;
         int onlineCount = 0;
         try {

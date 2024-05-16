@@ -20,16 +20,20 @@ public class ConnectionHandler{
     private static final String DB_NAME = "librarysystem";
     private static final String DB_DRIVER = Driver.class.getName();
     private static String DB_URL = "jdbc:mysql://localhost/"+DB_NAME;
-    private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "";
+    private static final String DB_USERNAME = "avnadmin";
+    private static final String DB_PASSWORD = "AVNS_8fHGFjNWVnbsdD9IaMb";
     
     private static final boolean ONLINE_MODE = true;
+    private static final boolean AIVEN= true;
     private static final String DB_HTTP = "https://related-seemingly-goose.ngrok-free.app" + "/ip.txt";
     
     private static Connection con;
     
     public boolean startConnection() throws SQLException{
-        if (ONLINE_MODE) {
+        if (AIVEN) {
+            DB_URL = "jdbc:mysql://librarysystem-librarysystem.e.aivencloud.com:15306/"+DB_NAME;
+        }
+        else if (ONLINE_MODE) {
             DB_URL = "jdbc:mysql://" + getTCPAddress() + "/" + DB_NAME;
         }
         
