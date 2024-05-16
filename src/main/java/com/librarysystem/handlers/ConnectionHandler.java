@@ -20,11 +20,11 @@ public class ConnectionHandler{
     private static final String DB_NAME = "librarysystem";
     private static final String DB_DRIVER = Driver.class.getName();
     private static String DB_URL = "jdbc:mysql://localhost/"+DB_NAME;
-    private static final String DB_USERNAME = "wew";
-    private static final String DB_PASSWORD = "ruX4q1pvt8Rxck4n";
+    private static final String DB_USERNAME = "root";
+    private static final String DB_PASSWORD = "";
     
     private static final boolean ONLINE_MODE = true;
-    private static final String DB_HTTP = "https://related-seemingly-goose.ngrok-free.app/ip.txt";
+    private static final String DB_HTTP = "https://related-seemingly-goose.ngrok-free.app" + "/ip.txt";
     
     private static Connection con;
     
