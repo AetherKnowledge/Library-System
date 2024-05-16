@@ -29,6 +29,7 @@ public class IssuedBooksPanel extends javax.swing.JPanel {
         
         if (borrowedBook.getStatus() == BorrowedBookStatus.RETURNED && borrowedBook.getDateReturned() == null) {
             System.out.println("Invalid borrowed Book");
+            IssuedBooksHandler.reloadIssuedBooksOnline();
             return;
         }
         

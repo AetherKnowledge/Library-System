@@ -161,7 +161,7 @@ public final class BookHandler implements ObjectHandler{
         bookUpdating = false;
     }
     
-    public static void loadBooksOnline(){
+    private static void loadBooksOnline(){
         bookUpdating = true;
         
         try {

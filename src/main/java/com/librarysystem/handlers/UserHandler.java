@@ -130,7 +130,7 @@ public final class UserHandler implements ObjectHandler{
         usersUpdating = false;
     }
     
-    public static void loadUsersOnline(){
+    private static void loadUsersOnline(){
         usersUpdating = true;
         usersList.removeAll(usersList);
         

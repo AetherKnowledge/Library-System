@@ -110,7 +110,7 @@ public final class CategoryHandler implements ObjectHandler{
         categoryUpdating = false;
     }
     
-    public static void loadCategoriesOnline(){
+    private static void loadCategoriesOnline(){
         categoryUpdating = true;
         
         try {
