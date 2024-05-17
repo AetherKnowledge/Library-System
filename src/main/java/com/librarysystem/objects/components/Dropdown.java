@@ -65,7 +65,7 @@ public class Dropdown extends JPanel {
         add(jButton3);
     }// </editor-fold>//GEN-END:initComponents
 
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -103,6 +103,9 @@ public class GraphHandler implements ObjectHandler{
         }
         
         graphUpdating = false;
+        if (hasGraphUpdated) {
+            System.out.println("Graph updated");
+        }
         return hasGraphUpdated;
     }
     

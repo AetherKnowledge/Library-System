@@ -18,7 +18,7 @@ import com.librarysystem.objects.buttons.SidebarMainButton;
 public class Sidebar extends JPanel{
     
     private final MainButtonType[] adminButtons = {MainButtonType.ADMINDASHBOARD,MainButtonType.ADMINBOOKS,MainButtonType.CATEGORIES,MainButtonType.MEMBERS};
-    private final MainButtonType[] userButtons = {MainButtonType.CLIENTDASHBOARD,MainButtonType.CLIENTBOOKS};
+    private final MainButtonType[] userButtons = {MainButtonType.CLIENTDASHBOARD,MainButtonType.CLIENTBOOKS,MainButtonType.MEMBERS};
     private final ArrayList<SidebarMainButton> currentMainButtons = new ArrayList<>();
     private final ArrayList<SidebarDropdownButton> currentDropdownButtons = new ArrayList<>();
     private final JPanel dropdownPanel = new JPanel();

@@ -611,6 +611,8 @@ public class ProfileOptions extends javax.swing.JPanel {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void signInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInButtonActionPerformed
+        Frame.getPopup().setAlwaysOnTop(false);
+
         String fullName = fullNameTextField.getText();
         String studentNum = studNumTextField.getText();
         String email = emailTextField.getText();
@@ -619,52 +621,62 @@ public class ProfileOptions extends javax.swing.JPanel {
         
         if (!email.equals(user.getEmail()) && UserHandler.doesUserExist(email, "") ) {
             JOptionPane.showMessageDialog(new JFrame(), "Email already Exists.");
+            Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
         else if (!studentNum.equals(user.getStudentNumber()) && UserHandler.doesUserExist("", studentNum) ) {
             JOptionPane.showMessageDialog(new JFrame(), "Student Number already Exists.");
+            Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
         else if (fullName.isEmpty() || fullName.equals("Full Name")) {
             JOptionPane.showMessageDialog(new JFrame(), "Full Name Field Empty.");
+            Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
         else if (studentNum.isEmpty() || studentNum.equals("Student Number")) {
             JOptionPane.showMessageDialog(new JFrame(), "Student Number Field Empty.");
+            Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
         else if (email.isEmpty() || email.equals("Email")) {
             JOptionPane.showMessageDialog(new JFrame(), "Email Field Empty.");
+            Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
         else if (!EmailValidator.getInstance().isValid(email)) {
             JOptionPane.showMessageDialog(new JFrame(), "Invalid Email.");
+            Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
         else if (password.isEmpty() || password.equals("Password")) {
             JOptionPane.showMessageDialog(new JFrame(), "Password Field Empty.");
+            Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
         else if (password.length() < 8) {
             JOptionPane.showMessageDialog(new JFrame(), "Password must be greater than 8 characters.");
+            Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
         else if (!containsSpecial(password)) {
             JOptionPane.showMessageDialog(new JFrame(), "Password must contain special character.");
+            Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
         else if (!password.equals(rePassword)) {
             JOptionPane.showMessageDialog(new JFrame(), "Password not the same.");
+            Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
-
+        
         password = Utilities.toBcrypt(passwordTextField.getPassword());
         User newUser = new User(User.UserType.USER, email, password,fullName,studentNum,userImg,user.getDateJoined(),LocalDateTime.now(),user.isImageDefault());
         
         UserHandler.updateUser(newUser,user.getEmail());
-
-        if (UserHandler.isLoginSuccessful(email, password.toCharArray())) {
-            System.out.println("User change successful");
+        
+        if (UserHandler.isLoginSuccessful(email, passwordTextField.getPassword())) {
+            JOptionPane.showMessageDialog(new JFrame(), "User changed successful");
         }
         
         user = newUser;

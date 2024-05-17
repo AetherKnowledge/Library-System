@@ -243,6 +243,9 @@ public final class IssuedBooksHandler implements ObjectHandler{
         }
         
         issuedBooksUpdating = false;
+        if (hasBorrowedBookUpdated) {
+            System.out.println("Issued Books updated");
+        }
         return hasBorrowedBookUpdated;
     }
     

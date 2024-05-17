@@ -1,6 +1,7 @@
 
 package com.librarysystem.handlers;
 
+import com.librarysystem.Frame;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +15,6 @@ import javax.swing.JOptionPane;
 import com.librarysystem.objects.User;
 import java.sql.Connection;
 import java.sql.Timestamp;
-import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import com.librarysystem.LibrarySystem;
 import java.awt.Image;
@@ -87,7 +87,7 @@ public final class UserHandler implements ObjectHandler{
     public static void updateUser(User user, String oldEmail){
         usersUpdating = true;
 
-        String query = "UPDATE user SET email = ?, password = ?, fullName = ?, studNum = ?, imageData = ? WHERE email = ?";
+        String query = "UPDATE user SET email = ?, password = ?, fullName = ?, studNum = ?, imageData = ?, lastUpdated = ? WHERE email = ?";
         try {
             byte[] imageData = null;
             if (!user.isImageDefault()) {
@@ -100,9 +100,20 @@ public final class UserHandler implements ObjectHandler{
             st.setString(3, user.getFullName());
             st.setString(4, user.getStudentNumber());
             st.setBytes(5, imageData);
-            st.setString(6, oldEmail);
+            st.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
+            st.setString(7, oldEmail);
+            st.execute();
             
-            usersList.stream().filter(oldUser -> oldUser.getEmail().equals(user.getEmail())).collect(Collectors.toList()).forEach(oldUser -> oldUser = user);
+            for (int i = 0; i < usersList.size(); i++) {
+                User oldUser = usersList.get(i);
+                if (oldUser.getEmail().equals(oldEmail)) {
+                    usersList.set(i, user);
+                }
+            }
+            if (currentUser != null && currentUser.getEmail().equals(oldEmail)) {
+                currentUser = user;
+            }
+            
             OfflineHandler.saveUsersOffline(usersList);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -219,13 +230,26 @@ public final class UserHandler implements ObjectHandler{
                 ResultSet resultSet = con.createStatement().executeQuery(query);
 
                 while (resultSet.next()) {
-                    if (!user.getLastUpdated().equals(resultSet.getTimestamp("lastUpdated").toLocalDateTime())) {
-                        
+                    if (!user.getLastUpdated().toString().equals(resultSet.getTimestamp("lastUpdated").toLocalDateTime().toString())) {
                         String getUser = "SELECT * FROM user WHERE email = '" + user.getEmail()+ "'";
                         ResultSet getUsersResult = con.createStatement().executeQuery(getUser);
                         getUsersResult.next();
-
-                        usersList.set(i, getUser(getUsersResult));
+                        
+                        User changedUser = getUser(getUsersResult);
+                        usersList.set(i, changedUser);
+                        if (currentUser != null && user.getEmail().equals(currentUser.getEmail())) {
+                            System.out.println("Changed current User");
+                            if (changedUser.getPassword().equals(currentUser.getPassword())) {
+                                currentUser = changedUser;
+                                LibrarySystem.changeUser(changedUser);
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(new JFrame(), "Password changed");
+                                Frame.switchPanel(Frame.PanelTypes.ENTRY);
+                                currentUser = null;
+                            }
+                        }
+                        
                         System.out.println("User "+ getUsersResult.getString("fullName") + " Changed");
                         hasUsersUpdated = true;
                     }
@@ -268,8 +292,26 @@ public final class UserHandler implements ObjectHandler{
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        if (currentUser != null && !doesUserStillExist()) {
+            JOptionPane.showMessageDialog(new JFrame(), "User no longer Exists");
+            Frame.switchPanel(Frame.PanelTypes.ENTRY);
+            currentUser = null;
+        }
+        
         usersUpdating = false;
+        if (hasUsersUpdated) {
+            System.out.println("Users updated");
+        }
         return hasUsersUpdated;
+    }
+    
+    private static boolean doesUserStillExist(){
+        for (User user : usersList) {
+            if (currentUser.getEmail().equals(user.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
     
     public static void updateOnlineStatus(User user){
@@ -295,8 +337,8 @@ public final class UserHandler implements ObjectHandler{
             try {
                 ResultSet rs = con.createStatement().executeQuery(query);
                 while(rs.next()){
-                    if (rs.getBoolean("status")) {
-                        user.setIsOnline(true);
+                    if (rs.getBoolean("status") != user.isOnline()) {
+                        user.setIsOnline(rs.getBoolean("status"));
                         hasChanged = true;
                     }
                 }
@@ -306,6 +348,9 @@ public final class UserHandler implements ObjectHandler{
             }
         }
         usersUpdating = false;
+        if (hasChanged) {
+            System.out.println("Online users updated");
+        }
         return hasChanged;
     }
     
@@ -339,8 +384,9 @@ public final class UserHandler implements ObjectHandler{
             }
         }
         catch (NoSuchElementException e){
-            JOptionPane.showMessageDialog(new JFrame(), "Invalid User or Password");
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, e);
         }
+        JOptionPane.showMessageDialog(new JFrame(), "Invalid User or Password");
         return false;
     }
     
@@ -351,6 +397,50 @@ public final class UserHandler implements ObjectHandler{
             }
         }
         return false;
+    }
+    
+    public static final void promoteUser(User user){
+        usersUpdating = true;
+        if (currentUser.getUserType() != User.UserType.ADMIN) {
+            JOptionPane.showMessageDialog(new JFrame(), "Cannot promote when not admin");
+            return;
+        }
+        
+        String query = "UPDATE user SET userType = ?, lastUpdated = ? WHERE email = ?";
+        try {
+            PreparedStatement pst = con.prepareCall(query);
+            pst.setString(1, User.UserType.ADMIN.name());
+            pst.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            pst.setString(3, user.getEmail());
+            pst.execute();
+            JOptionPane.showMessageDialog(new JFrame(), "Promoted user "+user.getEmail());
+        } catch (SQLException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), "Promoting user "+user.getEmail()+"failed");
+        }
+        usersUpdating = false;
+    }
+    
+    public static final void demoteAdmin(User user){
+        usersUpdating = true;
+        if (currentUser.getUserType() != User.UserType.ADMIN) {
+            JOptionPane.showMessageDialog(new JFrame(), "Cannot demote when not admin");
+            return;
+        }
+        
+        String query = "UPDATE user SET userType = ?, lastUpdated = ? WHERE email = ?";
+        try {
+            PreparedStatement pst = con.prepareCall(query);
+            pst.setString(1, User.UserType.USER.name());
+            pst.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            pst.setString(3, user.getEmail());
+            pst.execute();
+            JOptionPane.showMessageDialog(new JFrame(), "Demoted user "+user.getEmail());
+        } catch (SQLException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), "Demoting user "+user.getEmail()+"failed");
+        }
+        usersUpdating = false;
     }
 
     public static boolean isUsersUpdating() {
