@@ -17,14 +17,18 @@ import com.librarysystem.objects.Category;
 import com.librarysystem.objects.GraphData;
 import com.librarysystem.objects.IssuedBook;
 import com.librarysystem.objects.User;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class OfflineHandler {
 
-    private static final String CATEGORIES_PATH = "categories.sav";
-    private static final String BOOKS_PATH = "books.sav";
-    private static final String ISSUED_BOOKS_PATH = "borrowed_books.sav";
-    private static final String USERS_PATH = "users.sav";
-    private static final String GRAPH_DATA_PATH = "graph_data.sav";
+    private static final String CATEGORIES_PATH = "Data/categories.sav";
+    private static final String BOOKS_PATH = "Data/books.sav";
+    private static final String ISSUED_BOOKS_PATH = "Data/borrowed_books.sav";
+    private static final String USERS_PATH = "Data/users.sav";
+    private static final String GRAPH_DATA_PATH = "Data/graph_data.sav";
+    private static final Path path = Paths.get("Data");
     
     public static void saveUsersOffline(ArrayList<User> USERS) {
         System.out.println("Saving Users Offline...");
@@ -48,6 +52,7 @@ public class OfflineHandler {
         try {
             File file = new File(GRAPH_DATA_PATH);
             if (!file.exists()) {
+                if (!Files.exists(path)) Files.createDirectories(path);
                 System.out.println("File does not exist");
                 file.createNewFile();
             }
@@ -65,6 +70,7 @@ public class OfflineHandler {
         try {
             File file = new File(ISSUED_BOOKS_PATH);
             if (!file.exists()) {
+                if (!Files.exists(path)) Files.createDirectories(path);
                 System.out.println("File does not exist");
                 file.createNewFile();
             }
@@ -82,6 +88,7 @@ public class OfflineHandler {
         try {
             File file = new File(CATEGORIES_PATH);
             if (!file.exists()) {
+                if (!Files.exists(path)) Files.createDirectories(path);
                 System.out.println("File does not exist");
                 file.createNewFile();
             }
@@ -99,6 +106,7 @@ public class OfflineHandler {
         try {
             File file = new File(BOOKS_PATH);
             if (!file.exists()) {
+                if (!Files.exists(path)) Files.createDirectories(path);
                 System.out.println("File does not exist");
                 file.createNewFile();
             }
