@@ -442,5 +442,9 @@ public class Frame extends JFrame implements ComponentListener{
     public static MyPanel getCurrentPanel() {
         return currentPanel;
     }
+
+    public static JDialog getPopup() {
+        return popup;
+    }
     
 }

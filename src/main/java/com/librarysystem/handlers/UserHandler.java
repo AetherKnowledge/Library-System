@@ -1,6 +1,7 @@
 
 package com.librarysystem.handlers;
 
+import com.librarysystem.Frame;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +15,6 @@ import javax.swing.JOptionPane;
 import com.librarysystem.objects.User;
 import java.sql.Connection;
 import java.sql.Timestamp;
-import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import com.librarysystem.LibrarySystem;
 import java.awt.Image;
@@ -102,8 +102,18 @@ public final class UserHandler implements ObjectHandler{
             st.setBytes(5, imageData);
             st.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             st.setString(7, oldEmail);
+            st.execute();
             
-            usersList.stream().filter(oldUser -> oldUser.getEmail().equals(user.getEmail())).collect(Collectors.toList()).forEach(oldUser -> oldUser = user);
+            for (int i = 0; i < usersList.size(); i++) {
+                User oldUser = usersList.get(i);
+                if (oldUser.getEmail().equals(oldEmail)) {
+                    usersList.set(i, user);
+                }
+            }
+            if (currentUser != null && currentUser.getEmail().equals(oldEmail)) {
+                currentUser = user;
+            }
+            
             OfflineHandler.saveUsersOffline(usersList);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -224,8 +234,21 @@ public final class UserHandler implements ObjectHandler{
                         String getUser = "SELECT * FROM user WHERE email = '" + user.getEmail()+ "'";
                         ResultSet getUsersResult = con.createStatement().executeQuery(getUser);
                         getUsersResult.next();
-
-                        usersList.set(i, getUser(getUsersResult));
+                        
+                        User changedUser = getUser(getUsersResult);
+                        usersList.set(i, changedUser);
+                        if (currentUser != null && user.getEmail().equals(currentUser.getEmail())) {
+                            System.out.println("Changed current User");
+                            if (changedUser.getPassword().equals(currentUser.getPassword())) {
+                                currentUser = changedUser;
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(new JFrame(), "Password changed");
+                                Frame.switchPanel(Frame.PanelTypes.ENTRY);
+                                currentUser = null;
+                            }
+                        }
+                        
                         System.out.println("User "+ getUsersResult.getString("fullName") + " Changed");
                         hasUsersUpdated = true;
                     }
@@ -268,11 +291,26 @@ public final class UserHandler implements ObjectHandler{
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        if (currentUser != null && !doesUserStillExist()) {
+            JOptionPane.showMessageDialog(new JFrame(), "User no longer Exists");
+            Frame.switchPanel(Frame.PanelTypes.ENTRY);
+            currentUser = null;
+        }
+        
         usersUpdating = false;
         if (hasUsersUpdated) {
             System.out.println("Users updated");
         }
         return hasUsersUpdated;
+    }
+    
+    private static boolean doesUserStillExist(){
+        for (User user : usersList) {
+            if (currentUser.getEmail().equals(user.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
     
     public static void updateOnlineStatus(User user){
@@ -299,7 +337,7 @@ public final class UserHandler implements ObjectHandler{
                 ResultSet rs = con.createStatement().executeQuery(query);
                 while(rs.next()){
                     if (rs.getBoolean("status") != user.isOnline()) {
-                        user.setIsOnline(true);
+                        user.setIsOnline(rs.getBoolean("status"));
                         hasChanged = true;
                     }
                 }
@@ -345,8 +383,9 @@ public final class UserHandler implements ObjectHandler{
             }
         }
         catch (NoSuchElementException e){
-            JOptionPane.showMessageDialog(new JFrame(), "Invalid User or Password");
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, e);
         }
+        JOptionPane.showMessageDialog(new JFrame(), "Invalid User or Password");
         return false;
     }
     
