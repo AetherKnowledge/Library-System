@@ -241,6 +241,7 @@ public final class UserHandler implements ObjectHandler{
                             System.out.println("Changed current User");
                             if (changedUser.getPassword().equals(currentUser.getPassword())) {
                                 currentUser = changedUser;
+                                LibrarySystem.changeUser(changedUser);
                             }
                             else{
                                 JOptionPane.showMessageDialog(new JFrame(), "Password changed");

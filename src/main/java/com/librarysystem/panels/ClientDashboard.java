@@ -302,6 +302,7 @@ public class ClientDashboard extends MyPanel {
 
     @Override
     public void refreshItems() {
+        setDashboardItems();
     }
 
     @Override
