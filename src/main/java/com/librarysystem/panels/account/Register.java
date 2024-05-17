@@ -205,8 +205,18 @@ public class Register extends javax.swing.JPanel {
         jPanel11 = new javax.swing.JPanel();
         userImgLabel = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        uploadImageButton = new javax.swing.JButton();
-        signInButton = new javax.swing.JButton();
+        uploadImageButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        signInButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         jButton3 = new javax.swing.JButton(){
             @Override
             public void paint(Graphics g){

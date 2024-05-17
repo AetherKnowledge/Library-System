@@ -37,7 +37,7 @@ public class UserPanel extends javax.swing.JPanel {
         
         statusIconLabel.setText("");
         if (user.getEmail().equals(UserHandler.getCurrentUser().getEmail())) statusIconLabel.setIcon(Icons.onlineIcon);
-        else if (UserHandler.isUserOnline(user.getEmail())) statusIconLabel.setIcon(Icons.onlineIcon);
+        else if (user.isOnline()) statusIconLabel.setIcon(Icons.onlineIcon);
         else statusIconLabel.setIcon(Icons.offlineIcon);
         
         fullNameLabel.setText(user.getFullName());
@@ -49,12 +49,11 @@ public class UserPanel extends javax.swing.JPanel {
         
         userIcon.setIcon(new ImageIcon(userImage));
         
-        Utilities.addChangePointer(deleteBtn);
-        Utilities.addChangePointer(detailsBtn);
         String userType = "";
         userType += user.getUserType().name().charAt(0);
         userType += user.getUserType().name().toLowerCase().substring(1,user.getUserType().name().length());
         userTypeLabel.setText(userType);
+        
     }
     
     private void textButton(JButton btn){
@@ -90,6 +89,7 @@ public class UserPanel extends javax.swing.JPanel {
         });
         
         parent.add(btn);
+        Utilities.addChangePointer(btn);
     }
     
     public String getFullName(){

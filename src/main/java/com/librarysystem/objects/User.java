@@ -26,6 +26,7 @@ public class User implements Serializable{
     private final LocalDateTime dateJoined;
     private final LocalDateTime lastUpdated;
     private boolean isImageDefault;
+    private boolean isOnline = false;
     
     public User(UserType userType, String email, String password,String fullName,String studentNumber, Image icon, LocalDateTime dateJoined, LocalDateTime lastUpdated, boolean isImageDefault){
         this.dateJoined = dateJoined;
@@ -130,6 +131,14 @@ public class User implements Serializable{
 
     public void setIsImageDefault(boolean isImageDefault) {
         this.isImageDefault = isImageDefault;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setIsOnline(boolean isOnline) {
+        this.isOnline = isOnline;
     }
 
     public enum UserType{

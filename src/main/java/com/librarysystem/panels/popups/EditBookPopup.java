@@ -256,11 +256,31 @@ public class EditBookPopup extends JDialog{
         jLabel11 = new javax.swing.JLabel();
         bookIconLabel = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        uploadImage = new javax.swing.JButton();
-        saveButton = new javax.swing.JButton();
+        uploadImage = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        saveButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         backButton = new javax.swing.JButton();
-        editBtn = new javax.swing.JButton();
-        deleteBook = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        deleteBook = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();

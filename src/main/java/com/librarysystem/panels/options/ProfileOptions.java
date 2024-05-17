@@ -255,9 +255,24 @@ public class ProfileOptions extends javax.swing.JPanel {
         jPanel11 = new javax.swing.JPanel();
         userImgLabel = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        uploadImageButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
-        signInButton = new javax.swing.JButton();
+        uploadImageButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        cancelButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        signInButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         backButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));

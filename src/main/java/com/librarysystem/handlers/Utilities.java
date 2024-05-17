@@ -44,10 +44,11 @@ import com.librarysystem.panels.books.IssuedBooksPanel;
 import com.librarysystem.panels.category.CategoryPanel;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.RenderingHints;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashSet;
+import javax.swing.JButton;
 import org.apache.commons.validator.routines.EmailValidator;
 
 public class Utilities {
@@ -354,4 +355,25 @@ public class Utilities {
         return new ImageIcon(image).getImage();
     }
     
+    public static void changeButtonColor(JButton btn, Graphics g){
+        btn.setContentAreaFilled(false);
+        Color color;
+        Graphics2D g2D = (Graphics2D) g;
+        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        if (!btn.isEnabled()) color = new Color(70,73,75);
+        else if (btn.getModel().isPressed()) color = btn.getBackground().darker().darker();
+        else if (btn.getModel().isRollover()) color = btn.getBackground().darker();
+        else color = btn.getBackground();
+        
+        g2D.setColor(color);
+        g2D.fillRoundRect(0, 0, btn.getWidth(), btn.getHeight(),8,8);
+        
+        if (btn.isEnabled()) g2D.setColor(Color.WHITE);
+        else g2D.setColor(Color.WHITE.darker());
+        g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        FontMetrics metrics = btn.getFontMetrics(btn.getFont());
+        int x = (btn.getWidth()-metrics.stringWidth(btn.getText()))/2;
+        int y = (btn.getHeight() - metrics.getHeight())/2 + metrics.getAscent();
+        g2D.drawString(btn.getText(), x, y);
+    }
 }

@@ -13,6 +13,7 @@ import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.Category;
 import com.librarysystem.objects.components.RoundedBorder;
 import com.librarysystem.objects.ui.PalleteColors;
+import java.awt.Graphics;
 
 public class ChangeCategoryNamePopup extends JDialog {
     
@@ -44,7 +45,12 @@ public class ChangeCategoryNamePopup extends JDialog {
         catgoryName = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
-        changeButton = new javax.swing.JButton();
+        changeButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         cancelButton = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();

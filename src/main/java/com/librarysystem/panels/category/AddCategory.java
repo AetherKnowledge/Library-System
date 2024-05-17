@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import com.librarysystem.handlers.CategoryHandler;
 import com.librarysystem.handlers.Utilities;
 import com.librarysystem.panels.MyPanel;
+import java.awt.Graphics;
 
 public class AddCategory extends MyPanel {
     
@@ -146,7 +147,12 @@ public class AddCategory extends MyPanel {
         jLabel3 = new javax.swing.JLabel();
         categoryName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        addCategory = new javax.swing.JButton();
+        addCategory = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -248,6 +254,8 @@ public class AddCategory extends MyPanel {
         addCategory.setBackground(new java.awt.Color(65, 78, 101));
         addCategory.setForeground(new java.awt.Color(255, 255, 255));
         addCategory.setText("Create Category");
+        addCategory.setBorder(null);
+        addCategory.setFocusPainted(false);
         addCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addCategoryActionPerformed(evt);

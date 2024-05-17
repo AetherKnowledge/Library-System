@@ -287,31 +287,34 @@ public final class UserHandler implements ObjectHandler{
         usersUpdating = false;
     }  
     
-    public static boolean isUserOnline(String email){
-        String query = "SELECT status FROM user WHERE email = '" + email + "'";
-        try {
-            ResultSet rs = con.createStatement().executeQuery(query);
-            while(rs.next()){
-                return rs.getBoolean("status");
+    public static boolean updateAllOnlineUsers(){
+        usersUpdating = true;
+        boolean hasChanged = false;
+        for (User user : usersList) {
+            String query = "SELECT status FROM user WHERE email = '" + user.getEmail() + "'";
+            try {
+                ResultSet rs = con.createStatement().executeQuery(query);
+                while(rs.next()){
+                    if (rs.getBoolean("status")) {
+                        user.setIsOnline(true);
+                        hasChanged = true;
+                    }
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        usersUpdating = false;
+        return hasChanged;
     }
     
     public static int getOnlineCount(){
-        String query = "SELECT status FROM user ";
-        usersUpdating = true;
         int onlineCount = 0;
-        try {
-            ResultSet rs = con.createStatement().executeQuery(query);
-            while(rs.next()){
-                onlineCount += rs.getInt("status");
+        for (User user : usersList) {
+            if (user.isOnline()) {
+                onlineCount++;
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         usersUpdating = false;
         return onlineCount;

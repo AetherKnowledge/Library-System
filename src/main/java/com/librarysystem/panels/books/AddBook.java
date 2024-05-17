@@ -36,6 +36,7 @@ import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.ui.Icons;
 import com.librarysystem.panels.MyPanel;
 import com.librarysystem.panels.popups.EditBookPopup;
+import java.awt.Graphics;
 
 public class AddBook extends MyPanel {
     
@@ -128,8 +129,18 @@ public class AddBook extends MyPanel {
         jLabel11 = new javax.swing.JLabel();
         bookIconLabel = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        uploadImage = new javax.swing.JButton();
-        addBookBtn = new javax.swing.JButton();
+        uploadImage = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        addBookBtn = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         jLabel10 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
 

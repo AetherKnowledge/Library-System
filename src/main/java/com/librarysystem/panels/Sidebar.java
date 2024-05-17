@@ -66,6 +66,7 @@ public class Sidebar extends JPanel{
     public enum DropdownType{
         ADDBOOK("Add Book",Utilities.getImage("/textures/add.png"),MainButtonType.ADMINBOOKS,Frame.PanelTypes.ADDBOOK),
         ADMINBOOKLIST("Book List",Utilities.getImage("/textures/books.png"),MainButtonType.ADMINBOOKS,Frame.PanelTypes.BOOKLIST),
+        ADMINTMYBOOKLIST("My Books List",Utilities.getImage("/textures/books.png"),MainButtonType.ADMINBOOKS,Frame.PanelTypes.MYBOOKLIST),
         ISSUEDBOOKS("Issued Books",Utilities.getImage("/textures/books.png"),MainButtonType.ADMINBOOKS,Frame.PanelTypes.ISSUEDBOOKS),
         RETURNEDBOOKS("Returned Books",Utilities.getImage("/textures/books.png"),MainButtonType.ADMINBOOKS,Frame.PanelTypes.RETURNEDBOOKS),
         CLIENTBOOKLIST("Book List",Utilities.getImage("/textures/books.png"),MainButtonType.CLIENTBOOKS,Frame.PanelTypes.BOOKLIST),

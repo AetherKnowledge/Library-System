@@ -20,7 +20,9 @@ import com.librarysystem.objects.User;
 import com.librarysystem.objects.components.RoundedBorder;
 import static com.librarysystem.handlers.IssuedBooksHandler.findIssuedBook;
 import com.librarysystem.handlers.Utilities;
+import java.awt.Graphics;
 import java.time.LocalDateTime;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public class BookPanel extends JPanel {
@@ -88,15 +90,22 @@ public class BookPanel extends JPanel {
         }
         else if (UserHandler.getCurrentUserType() == User.UserType.ADMIN && Frame.getCurrentPanel() instanceof BookList) {
             jPanel10.removeAll();
-            editButton = new JButton();
+            editButton = new JButton(){
+                @Override
+                public void paint(Graphics g){
+                    Utilities.changeButtonColor(this, g);
+                }
+            };
             editButton.addActionListener(l -> {
                 editButtonAction();
             });
-            editButton.setBackground(PalleteColors.BUTTON_PRESSED_TEXT);
+            editButton.setBackground(PalleteColors.GREEN);
             editButton.setForeground(Color.WHITE);
             editButton.setFont(new java.awt.Font("Roboto", 0, 10)); // NOI18N
             editButton.setText("Edit Book");
             editButton.setPreferredSize(new Dimension(100, 18));
+            editButton.setBorder(BorderFactory.createEmptyBorder());
+            
             jPanel10.add(editButton);
             
             addToListButton.addActionListener(l -> addToListButtonAction());
@@ -139,7 +148,12 @@ public class BookPanel extends JPanel {
         jPanel10 = new javax.swing.JPanel();
         authorTextField = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        addToListButton = new javax.swing.JButton();
+        addToListButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         icon = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(204, 204, 204));
@@ -203,6 +217,7 @@ public class BookPanel extends JPanel {
         addToListButton.setFont(new java.awt.Font("Roboto", 0, 10)); // NOI18N
         addToListButton.setForeground(new java.awt.Color(255, 255, 255));
         addToListButton.setText("Details");
+        addToListButton.setBorder(null);
         addToListButton.setPreferredSize(new java.awt.Dimension(100, 18));
         jPanel11.add(addToListButton, new java.awt.GridBagConstraints());
         addToListButton.setBackground(PalleteColors.BUTTON_PRESSED_TEXT);

@@ -155,14 +155,29 @@ public class ForgetPasswordPopup extends JDialog{
         jLabel10 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        emailConfirm = new javax.swing.JButton();
+        emailConfirm = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         keyPanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         keyTextField = new javax.swing.JTextField();
-        resendCode = new javax.swing.JButton();
-        keyConfirm = new javax.swing.JButton();
+        resendCode = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        keyConfirm = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         passwordPanel = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -194,7 +209,12 @@ public class ForgetPasswordPopup extends JDialog{
         jLabel8 = new javax.swing.JLabel();
         rePasswordTextField = new javax.swing.JPasswordField();
         jLabel9 = new javax.swing.JLabel();
-        changePass = new javax.swing.JButton();
+        changePass = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
 
         setBackground(new java.awt.Color(224, 224, 224));
         setPreferredSize(new java.awt.Dimension(399, 285));
