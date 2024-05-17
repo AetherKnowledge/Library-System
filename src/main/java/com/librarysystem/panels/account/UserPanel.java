@@ -1,6 +1,7 @@
 
 package com.librarysystem.panels.account;
 
+import com.librarysystem.Frame;
 import com.librarysystem.objects.ui.PalleteColors;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -119,6 +120,10 @@ public class UserPanel extends javax.swing.JPanel {
                 parent.revalidate();
                 parent.repaint();
             }
+            case "Details" ->{
+                Frame.removePopup();
+                Frame.makePopup(Frame.PopupType.USERDETAILS, user);
+            }
 
         }
     }
@@ -232,6 +237,11 @@ public class UserPanel extends javax.swing.JPanel {
         detailsBtn.setForeground(new java.awt.Color(43, 49, 65));
         detailsBtn.setText("Details");
         detailsBtn.setPreferredSize(new java.awt.Dimension(60, 20));
+        detailsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detailsBtnActionPerformed(evt);
+            }
+        });
         btnPanel.add(detailsBtn);
         detailsBtn.setBounds(10, 0, 80, 20);
 
@@ -245,6 +255,10 @@ public class UserPanel extends javax.swing.JPanel {
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void detailsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_detailsBtnActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

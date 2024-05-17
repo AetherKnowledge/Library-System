@@ -87,7 +87,7 @@ public final class UserHandler implements ObjectHandler{
     public static void updateUser(User user, String oldEmail){
         usersUpdating = true;
 
-        String query = "UPDATE user SET email = ?, password = ?, fullName = ?, studNum = ?, imageData = ? WHERE email = ?";
+        String query = "UPDATE user SET email = ?, password = ?, fullName = ?, studNum = ?, imageData = ?, lastUpdated = ? WHERE email = ?";
         try {
             byte[] imageData = null;
             if (!user.isImageDefault()) {
@@ -100,7 +100,8 @@ public final class UserHandler implements ObjectHandler{
             st.setString(3, user.getFullName());
             st.setString(4, user.getStudentNumber());
             st.setBytes(5, imageData);
-            st.setString(6, oldEmail);
+            st.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
+            st.setString(7, oldEmail);
             
             usersList.stream().filter(oldUser -> oldUser.getEmail().equals(user.getEmail())).collect(Collectors.toList()).forEach(oldUser -> oldUser = user);
             OfflineHandler.saveUsersOffline(usersList);
@@ -219,8 +220,7 @@ public final class UserHandler implements ObjectHandler{
                 ResultSet resultSet = con.createStatement().executeQuery(query);
 
                 while (resultSet.next()) {
-                    if (!user.getLastUpdated().equals(resultSet.getTimestamp("lastUpdated").toLocalDateTime())) {
-                        
+                    if (!user.getLastUpdated().toString().equals(resultSet.getTimestamp("lastUpdated").toLocalDateTime().toString())) {
                         String getUser = "SELECT * FROM user WHERE email = '" + user.getEmail()+ "'";
                         ResultSet getUsersResult = con.createStatement().executeQuery(getUser);
                         getUsersResult.next();
@@ -269,6 +269,9 @@ public final class UserHandler implements ObjectHandler{
         }
         
         usersUpdating = false;
+        if (hasUsersUpdated) {
+            System.out.println("Users updated");
+        }
         return hasUsersUpdated;
     }
     
@@ -295,7 +298,7 @@ public final class UserHandler implements ObjectHandler{
             try {
                 ResultSet rs = con.createStatement().executeQuery(query);
                 while(rs.next()){
-                    if (rs.getBoolean("status")) {
+                    if (rs.getBoolean("status") != user.isOnline()) {
                         user.setIsOnline(true);
                         hasChanged = true;
                     }
@@ -306,6 +309,9 @@ public final class UserHandler implements ObjectHandler{
             }
         }
         usersUpdating = false;
+        if (hasChanged) {
+            System.out.println("Online users updated");
+        }
         return hasChanged;
     }
     
@@ -351,6 +357,50 @@ public final class UserHandler implements ObjectHandler{
             }
         }
         return false;
+    }
+    
+    public static final void promoteUser(User user){
+        usersUpdating = true;
+        if (currentUser.getUserType() != User.UserType.ADMIN) {
+            JOptionPane.showMessageDialog(new JFrame(), "Cannot promote when not admin");
+            return;
+        }
+        
+        String query = "UPDATE user SET userType = ?, lastUpdated = ? WHERE email = ?";
+        try {
+            PreparedStatement pst = con.prepareCall(query);
+            pst.setString(1, User.UserType.ADMIN.name());
+            pst.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            pst.setString(3, user.getEmail());
+            pst.execute();
+            JOptionPane.showMessageDialog(new JFrame(), "Promoted user "+user.getEmail());
+        } catch (SQLException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), "Promoting user "+user.getEmail()+"failed");
+        }
+        usersUpdating = false;
+    }
+    
+    public static final void demoteAdmin(User user){
+        usersUpdating = true;
+        if (currentUser.getUserType() != User.UserType.ADMIN) {
+            JOptionPane.showMessageDialog(new JFrame(), "Cannot demote when not admin");
+            return;
+        }
+        
+        String query = "UPDATE user SET userType = ?, lastUpdated = ? WHERE email = ?";
+        try {
+            PreparedStatement pst = con.prepareCall(query);
+            pst.setString(1, User.UserType.USER.name());
+            pst.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            pst.setString(3, user.getEmail());
+            pst.execute();
+            JOptionPane.showMessageDialog(new JFrame(), "Demoted user "+user.getEmail());
+        } catch (SQLException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), "Demoting user "+user.getEmail()+"failed");
+        }
+        usersUpdating = false;
     }
 
     public static boolean isUsersUpdating() {

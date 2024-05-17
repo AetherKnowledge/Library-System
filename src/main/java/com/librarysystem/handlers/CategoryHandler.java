@@ -209,6 +209,9 @@ public final class CategoryHandler implements ObjectHandler{
         }
         
         categoryUpdating = false;
+        if (hasCategoriesUpdated) {
+            System.out.println("Categories updated");
+        }
         return hasCategoriesUpdated;
     }
     

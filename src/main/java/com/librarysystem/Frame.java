@@ -53,6 +53,7 @@ import com.librarysystem.panels.popups.ChangeCategoryNamePopup;
 import com.librarysystem.panels.popups.BookDetailsPopup;
 import com.librarysystem.panels.popups.ForgetPasswordPopup;
 import com.librarysystem.panels.popups.OptionsPopup;
+import com.librarysystem.panels.popups.UserDetailsPopup;
 
 public class Frame extends JFrame implements ComponentListener{
     
@@ -403,6 +404,7 @@ public class Frame extends JFrame implements ComponentListener{
             case CHANGECATEGORYNAME -> popup = new ChangeCategoryNamePopup((Category) obj);
             case SETTINGS -> popup = new OptionsPopup((OptionsPopup.OptionsPanels) obj);
             case FORGETPASSWORD -> popup = new ForgetPasswordPopup();
+            case USERDETAILS -> popup = new UserDetailsPopup((User) obj);
         }
         
         popup.setUndecorated(true);
@@ -413,7 +415,7 @@ public class Frame extends JFrame implements ComponentListener{
     }
     
     public enum PopupType{
-        BOOKDETAILS, EDITBOOK, CHANGECATEGORYNAME, SETTINGS, FORGETPASSWORD;
+        BOOKDETAILS, EDITBOOK, CHANGECATEGORYNAME, SETTINGS, FORGETPASSWORD, USERDETAILS;
     }
     
     public static void removePopup(){

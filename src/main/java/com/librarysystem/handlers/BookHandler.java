@@ -270,6 +270,10 @@ public final class BookHandler implements ObjectHandler{
         }
         
         bookUpdating = false;
+        
+        if (hasBooksUpdated) {
+            System.out.println("Books updated");
+        }
         return hasBooksUpdated;
     }
     
