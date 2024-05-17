@@ -287,6 +287,20 @@ public final class UserHandler implements ObjectHandler{
         usersUpdating = false;
     }  
     
+    public static boolean isUserOnline(String email){
+        String query = "SELECT status FROM user WHERE email = '" + email + "'";
+        try {
+            ResultSet rs = con.createStatement().executeQuery(query);
+            while(rs.next()){
+                return rs.getBoolean("status");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
     public static int getOnlineCount(){
         String query = "SELECT status FROM user ";
         usersUpdating = true;

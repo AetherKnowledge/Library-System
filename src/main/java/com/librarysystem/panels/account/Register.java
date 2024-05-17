@@ -30,6 +30,7 @@ import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.User;
 import com.librarysystem.objects.ui.PalleteColors;
 import com.librarysystem.objects.components.RoundedBorder;
+import com.librarysystem.objects.ui.Icons;
 
 public class Register extends javax.swing.JPanel {
     
@@ -672,7 +673,7 @@ public class Register extends javax.swing.JPanel {
         emailTextField.setText("Email");
         passwordTextField.setText("Password");
         rePasswordTextField.setText("Password");
-        userImg = Utilities.getImage("/textures/noImage.png").getImage();
+        userImg = Icons.noImageIcon.getImage();
         userImg = userImg.getScaledInstance(userImgLabel.getPreferredSize().width, userImgLabel.getPreferredSize().height, Image.SCALE_SMOOTH);
         userImgLabel.setIcon(new ImageIcon(userImg));
         termsAndConditions.setSelected(false);
@@ -689,7 +690,7 @@ public class Register extends javax.swing.JPanel {
         emailTextField.setText("Email");
         passwordTextField.setText("Password");
         rePasswordTextField.setText("Password");
-        userImg = Utilities.getImage("/textures/noImage.png").getImage();
+        userImg = Icons.noImageIcon.getImage();
         userImg = userImg.getScaledInstance(userImgLabel.getPreferredSize().width, userImgLabel.getPreferredSize().height, Image.SCALE_SMOOTH);
         userImgLabel.setIcon(new ImageIcon(userImg));
         termsAndConditions.setSelected(false);

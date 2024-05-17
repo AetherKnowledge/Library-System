@@ -89,7 +89,7 @@ public class Book implements Serializable{
     }
     
     private byte[] serializeImage(Image image) throws IOException {
-        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = bufferedImage.createGraphics();
         g2d.drawImage(image, 0, 0, null);
         g2d.dispose();

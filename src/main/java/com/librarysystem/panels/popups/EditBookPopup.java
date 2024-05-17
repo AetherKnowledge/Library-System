@@ -41,13 +41,14 @@ import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.Book;
 import com.librarysystem.objects.Category;
 import com.librarysystem.objects.components.RoundedBorder;
+import com.librarysystem.objects.ui.Icons;
 import com.librarysystem.objects.ui.PalleteColors;
 
 public class EditBookPopup extends JDialog{
     
     private Image userImg = Utilities.getImage("/textures/user.png").getImage();
     private Image bookImg = Utilities.getImage("/textures/books.png").getImage();
-    private Image bookIconImg = Utilities.getImage("/textures/noImage.png").getImage();
+    private Image bookIconImg = Icons.noImageIcon.getImage();
     private Image categoryImg = Utilities.getImage("/textures/categories.png").getImage();
     private Image calendarImg = Utilities.getImage("/textures/calendar.png").getImage();
     private Image backImg = Utilities.getImage("/textures/back.png").getImage();

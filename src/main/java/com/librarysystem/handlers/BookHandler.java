@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import com.librarysystem.LibrarySystem;
 import com.librarysystem.objects.Book;
 import com.librarysystem.objects.Category;
+import com.librarysystem.objects.ui.Icons;
 import com.librarysystem.objects.ui.PalleteColors;
 
 public final class BookHandler implements ObjectHandler{
@@ -202,7 +203,7 @@ public final class BookHandler implements ObjectHandler{
         Image img;
         boolean isDefaultImage = imgArray == null;
         if (isDefaultImage) {
-            img = Utilities.getImage("/textures/noImage.png").getImage();
+            img = Icons.noImageIcon.getImage();
             img = Utilities.changeImageColor(img, PalleteColors.DROPDOWN);
         }
         else img = Utilities.deserializeImage(imgArray);

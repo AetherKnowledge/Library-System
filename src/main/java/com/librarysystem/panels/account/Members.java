@@ -1,5 +1,5 @@
 
-package com.librarysystem.panels;
+package com.librarysystem.panels.account;
 
 import java.awt.Dimension;
 import java.awt.Image;
@@ -14,6 +14,7 @@ import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.ui.PalleteColors;
 import com.librarysystem.objects.components.RoundedBorder;
 import com.librarysystem.objects.User;
+import com.librarysystem.panels.MyPanel;
 import com.librarysystem.panels.account.UserPanel;
 
 public class Members extends MyPanel {

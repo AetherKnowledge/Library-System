@@ -20,10 +20,11 @@ import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.ui.PalleteColors;
 import com.librarysystem.objects.components.RoundedBorder;
 import com.librarysystem.objects.User;
+import com.librarysystem.objects.ui.Icons;
 
 public class ClientDashboard extends MyPanel {
     
-    Image emailIcon = Utilities.getImage("/textures/emailIcon.png").getImage();
+    Image emailIcon = Icons.emailIcon.getImage();
     Image person = Utilities.getImage("/textures/user.png").getImage();
     Image numberIcon = Utilities.getImage("/textures/number.png").getImage();
     Image locationIcon = Utilities.getImage("/textures/location.png").getImage();

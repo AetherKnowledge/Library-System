@@ -18,6 +18,7 @@ import com.librarysystem.handlers.UserHandler;
 import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.User;
 import com.librarysystem.objects.components.RoundedBorder;
+import com.librarysystem.objects.ui.Icons;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -34,6 +35,10 @@ public class UserPanel extends javax.swing.JPanel {
         textButton(deleteBtn);
         textButton(detailsBtn);
         
+        statusIconLabel.setText("");
+        if (user.getEmail().equals(UserHandler.getCurrentUser().getEmail())) statusIconLabel.setIcon(Icons.onlineIcon);
+        else if (UserHandler.isUserOnline(user.getEmail())) statusIconLabel.setIcon(Icons.onlineIcon);
+        else statusIconLabel.setIcon(Icons.offlineIcon);
         
         fullNameLabel.setText(user.getFullName());
         studentNumLabel.setText(user.getStudentNumber());
@@ -46,6 +51,10 @@ public class UserPanel extends javax.swing.JPanel {
         
         Utilities.addChangePointer(deleteBtn);
         Utilities.addChangePointer(detailsBtn);
+        String userType = "";
+        userType += user.getUserType().name().charAt(0);
+        userType += user.getUserType().name().toLowerCase().substring(1,user.getUserType().name().length());
+        userTypeLabel.setText(userType);
     }
     
     private void textButton(JButton btn){
@@ -125,9 +134,11 @@ public class UserPanel extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         bookIcon = new javax.swing.JLabel();
         bookCountLabel = new javax.swing.JLabel();
+        statusIconLabel = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         fullNameLabel = new javax.swing.JLabel();
         studentNumLabel = new javax.swing.JLabel();
+        userTypeLabel = new javax.swing.JLabel();
         btnPanel = new javax.swing.JPanel();
         deleteBtn = new javax.swing.JButton();
         detailsBtn = new javax.swing.JButton();
@@ -150,12 +161,13 @@ public class UserPanel extends javax.swing.JPanel {
         jPanel3.setPreferredSize(new java.awt.Dimension(48, 48));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(89, 89));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         bookIcon.setForeground(new java.awt.Color(43, 49, 65));
         bookIcon.setText("bookicn");
         bookIcon.setPreferredSize(new java.awt.Dimension(40, 16));
-        jPanel1.add(bookIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 0, 32, 28));
+        jPanel1.add(bookIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 0, 32, 28));
         Image bookImg = Utilities.getImage("/textures/books.png").getImage();
         bookImg = Utilities.changeImageColor(bookImg, PalleteColors.DROPDOWN);
         bookImg = bookImg.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
@@ -167,7 +179,10 @@ public class UserPanel extends javax.swing.JPanel {
         bookCountLabel.setForeground(new java.awt.Color(43, 49, 65));
         bookCountLabel.setText("3");
         bookCountLabel.setPreferredSize(new java.awt.Dimension(7, 18));
-        jPanel1.add(bookCountLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(67, 5, 22, -1));
+        jPanel1.add(bookCountLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 5, 30, -1));
+
+        statusIconLabel.setText("jLabel1");
+        jPanel1.add(statusIconLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 2, 20, -1));
 
         jPanel3.add(jPanel1, java.awt.BorderLayout.EAST);
 
@@ -186,6 +201,13 @@ public class UserPanel extends javax.swing.JPanel {
         studentNumLabel.setText("22-1720-360");
         jPanel5.add(studentNumLabel);
         studentNumLabel.setBounds(10, 20, 120, 13);
+
+        userTypeLabel.setFont(new java.awt.Font("Roboto", 0, 10)); // NOI18N
+        userTypeLabel.setForeground(new java.awt.Color(43, 49, 65));
+        userTypeLabel.setText("bookicn");
+        userTypeLabel.setPreferredSize(new java.awt.Dimension(40, 16));
+        jPanel5.add(userTypeLabel);
+        userTypeLabel.setBounds(10, 30, 90, 16);
 
         jPanel3.add(jPanel5, java.awt.BorderLayout.WEST);
 
@@ -237,7 +259,9 @@ public class UserPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel statusIconLabel;
     private javax.swing.JLabel studentNumLabel;
     private javax.swing.JLabel userIcon;
+    private javax.swing.JLabel userTypeLabel;
     // End of variables declaration//GEN-END:variables
 }

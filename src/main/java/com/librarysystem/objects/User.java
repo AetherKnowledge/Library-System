@@ -1,7 +1,6 @@
 
 package com.librarysystem.objects;
 
-import com.librarysystem.handlers.Utilities;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -132,7 +131,7 @@ public class User implements Serializable{
     public void setIsImageDefault(boolean isImageDefault) {
         this.isImageDefault = isImageDefault;
     }
-    
+
     public enum UserType{
         ADMIN,USER;
     }
