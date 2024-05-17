@@ -160,7 +160,6 @@ public class LibrarySystem{
         
         Thread sqlUpdateThread = new Thread(() -> {
             updating = true;
-            
             if (UserHandler.getCurrentUser() != null) {
                 UserHandler.updateOnlineStatus(UserHandler.getCurrentUser());
                 System.out.println(UserHandler.getCurrentUser().getFullName() + " is Online.");
@@ -173,19 +172,19 @@ public class LibrarySystem{
             if (IssuedBooksHandler.hasIssuedBookUpdated()) hasUpdated = true;
             if (UserHandler.hasUsersUpdated()) hasUpdated = true;
             if (GraphHandler.hasGraphUpdated()) hasUpdated = true;
+            if (UserHandler.updateAllOnlineUsers()) hasUpdated = true;
+            int newOnlineCount = UserHandler.getOnlineCount();
+            if (onlineCount != newOnlineCount) {
+                onlineCount = newOnlineCount;
+                
+                hasUpdated = true;
+                System.out.println("Online Count Changed");
+            }
             
             if (hasUpdated) {
                 System.out.print("Data Changed \n");
                 updateData();
             }
-            int newOnlineCount = UserHandler.getOnlineCount();
-            if (onlineCount != newOnlineCount) {
-                onlineCount = newOnlineCount;
-                
-                updateData();
-                System.out.println("Online Count Changed");
-            }
-            
             updating = false;
         });
         sqlUpdateThread.start();

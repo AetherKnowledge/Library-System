@@ -30,7 +30,7 @@ public class GraphHandler implements ObjectHandler{
         hasStarted = true;
     }
     
-    public static void loadGraphDataOnline(){
+    private static void loadGraphDataOnline(){
         graphUpdating = true;
         graphData.removeAll(graphData);
         

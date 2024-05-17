@@ -33,14 +33,16 @@ import javax.swing.LookAndFeel;
 import com.librarysystem.handlers.BookHandler;
 import com.librarysystem.handlers.CategoryHandler;
 import com.librarysystem.handlers.Utilities;
+import com.librarysystem.objects.ui.Icons;
 import com.librarysystem.panels.MyPanel;
 import com.librarysystem.panels.popups.EditBookPopup;
+import java.awt.Graphics;
 
 public class AddBook extends MyPanel {
     
     private Image userImg = Utilities.getImage("/textures/user.png").getImage();
     private Image bookImg = Utilities.getImage("/textures/books.png").getImage();
-    private Image bookIconImg = Utilities.getImage("/textures/noImage.png").getImage();
+    private Image bookIconImg = Icons.noImageIcon.getImage();
     private Image categoryImg = Utilities.getImage("/textures/categories.png").getImage();
     private Image calendarImg = Utilities.getImage("/textures/calendar.png").getImage();
     private boolean changedImage = false;
@@ -127,8 +129,18 @@ public class AddBook extends MyPanel {
         jLabel11 = new javax.swing.JLabel();
         bookIconLabel = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        uploadImage = new javax.swing.JButton();
-        addBookBtn = new javax.swing.JButton();
+        uploadImage = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        addBookBtn = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         jLabel10 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
 
@@ -555,7 +567,7 @@ public class AddBook extends MyPanel {
         }
         
         if (!changedImage) {
-            bookIconImg = Utilities.getImage("/textures/noImage.png").getImage();
+            bookIconImg = Icons.noImageIcon.getImage();
             bookIconImg = Utilities.changeImageColor(bookIconImg, PalleteColors.DROPDOWN);
         }
         
@@ -564,11 +576,11 @@ public class AddBook extends MyPanel {
         int totalAmmount = (int) totalAmmountSpinner.getValue();
         
         bookIconImg = bookIconImg.getScaledInstance(130, 174, Image.SCALE_SMOOTH);
-        Book book = new Book(new ImageIcon(bookIconImg).getImage(),bookId,title,author,tagID,description,bookStatus,dateSelected,Timestamp.valueOf(LocalDateTime.now()),maxDaysAdminBorrowed,maxDaysUserBorrowed,totalAmmount,totalAmmount);
+        Book book = new Book(new ImageIcon(bookIconImg).getImage(),bookId,title,author,tagID,description,bookStatus,dateSelected,Timestamp.valueOf(LocalDateTime.now()),maxDaysAdminBorrowed,maxDaysUserBorrowed,totalAmmount,totalAmmount,!changedImage);
         BookHandler.addBook(book);
         
-        bookIconImg = Utilities.getImage("/textures/noImage.png").getImage();
-        bookIconLabel.setIcon(Utilities.getImage("/textures/noImage.png"));
+        bookIconImg = Icons.noImageIcon.getImage();
+        bookIconLabel.setIcon(Icons.noImageIcon);
         changedImage = false;
         
         titleTextField.setText("Title");

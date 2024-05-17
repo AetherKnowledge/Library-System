@@ -191,6 +191,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Edit"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[80, 22]"/>
             </Property>
@@ -200,6 +201,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButton1.setBorder(new RoundedBorder(8,0));"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(){&#xa;    @Override&#xa;    public void paint(Graphics g){&#xa;        Utilities.changeButtonColor(this, g);&#xa;    }&#xa;}"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="jButton2">
@@ -214,6 +216,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Remove"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[80, 22]"/>
             </Property>
@@ -223,6 +226,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButton2.setBorder(new RoundedBorder(8,0));"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(){&#xa;    @Override&#xa;    public void paint(Graphics g){&#xa;        Utilities.changeButtonColor(this, g);&#xa;    }&#xa;}"/>
           </AuxValues>
         </Component>
       </SubComponents>

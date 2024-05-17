@@ -30,6 +30,7 @@ public class Book implements Serializable{
     private int maxDaysAdminBorrowed;
     private int totalAmmount;
     private int ammountLeft;
+    private boolean isImageDefault;
     
     private Timestamp lastUpdated;
     
@@ -45,7 +46,9 @@ public class Book implements Serializable{
             int maxDaysAdminBorrowed,
             int maxDaysUserBorrowed,
             int totalAmmount,
-            int ammountLeft){
+            int ammountLeft,
+            boolean isImageDefault
+            ){
         
         this.bookID = bookID;
         this.bookIcon = bookIcon;
@@ -60,6 +63,7 @@ public class Book implements Serializable{
         this.maxDaysUserBorrowed = maxDaysUserBorrowed;
         this.totalAmmount = totalAmmount;
         this.ammountLeft = ammountLeft;
+        this.isImageDefault = isImageDefault;
         
         try{
             imageData = serializeImage(bookIcon);
@@ -85,7 +89,7 @@ public class Book implements Serializable{
     }
     
     private byte[] serializeImage(Image image) throws IOException {
-        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = bufferedImage.createGraphics();
         g2d.drawImage(image, 0, 0, null);
         g2d.dispose();
@@ -169,6 +173,14 @@ public class Book implements Serializable{
     
     public void addAmmountLeft(int num){
         ammountLeft += num;
+    }
+
+    public boolean isImageDefault() {
+        return isImageDefault;
+    }
+
+    public void setIsDefaultImage(boolean isDefaultImage) {
+        this.isImageDefault = isDefaultImage;
     }
     
     public enum Availability{

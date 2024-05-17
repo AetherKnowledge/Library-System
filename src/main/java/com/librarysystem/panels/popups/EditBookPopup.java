@@ -41,13 +41,14 @@ import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.Book;
 import com.librarysystem.objects.Category;
 import com.librarysystem.objects.components.RoundedBorder;
+import com.librarysystem.objects.ui.Icons;
 import com.librarysystem.objects.ui.PalleteColors;
 
 public class EditBookPopup extends JDialog{
     
     private Image userImg = Utilities.getImage("/textures/user.png").getImage();
     private Image bookImg = Utilities.getImage("/textures/books.png").getImage();
-    private Image bookIconImg = Utilities.getImage("/textures/noImage.png").getImage();
+    private Image bookIconImg = Icons.noImageIcon.getImage();
     private Image categoryImg = Utilities.getImage("/textures/categories.png").getImage();
     private Image calendarImg = Utilities.getImage("/textures/calendar.png").getImage();
     private Image backImg = Utilities.getImage("/textures/back.png").getImage();
@@ -255,11 +256,31 @@ public class EditBookPopup extends JDialog{
         jLabel11 = new javax.swing.JLabel();
         bookIconLabel = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        uploadImage = new javax.swing.JButton();
-        saveButton = new javax.swing.JButton();
+        uploadImage = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        saveButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         backButton = new javax.swing.JButton();
-        editBtn = new javax.swing.JButton();
-        deleteBook = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        deleteBook = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -806,7 +827,7 @@ public class EditBookPopup extends JDialog{
         bookIconImg = bookIconImg.getScaledInstance(130, 174, Image.SCALE_SMOOTH);
         System.out.println("");
         
-        Book newBook = new Book(new ImageIcon(bookIconImg).getImage(),bookId,title,author,tagID,description,bookStatus,dateSelected,Timestamp.valueOf(LocalDateTime.now()),maxDaysAdminBorrowed,maxDaysUserBorrowed,totalAmmount,ammountLeft);
+        Book newBook = new Book(new ImageIcon(bookIconImg).getImage(),bookId,title,author,tagID,description,bookStatus,dateSelected,Timestamp.valueOf(LocalDateTime.now()),maxDaysAdminBorrowed,maxDaysUserBorrowed,totalAmmount,ammountLeft,book.isImageDefault());
 
         BookHandler.updateBook(newBook, book.getBookID());
         
@@ -857,6 +878,7 @@ public class EditBookPopup extends JDialog{
             bookIconLabel.setIcon(new ImageIcon(bookIconImg));
             bookIconLabel.setBorder(new RoundedBorder(8,1));
             changedImage = true;
+            book.setIsDefaultImage(false);
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
         } else {
             System.out.println("No file selected.");

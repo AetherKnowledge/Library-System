@@ -6,10 +6,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import com.librarysystem.Frame;
 import com.librarysystem.handlers.CategoryHandler;
+import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.Category;
 import com.librarysystem.objects.components.LineBorderSide;
 import com.librarysystem.objects.components.LineBorderSide.Side;
 import com.librarysystem.objects.components.RoundedBorder;
+import com.librarysystem.objects.ui.PalleteColors;
+import java.awt.Graphics;
 
 public class CategoryPanel extends javax.swing.JPanel {
     
@@ -21,6 +24,9 @@ public class CategoryPanel extends javax.swing.JPanel {
         categoryID.setText(category.getCategoryID());
         categoryName.setText(category.getCategoryName());
         booksTotal.setText(Integer.toString(category.getBooksInTotal()));
+        
+        Utilities.addChangePointer(jButton1);
+        Utilities.addChangePointer(jButton2);
     }
     
     public String getCategoryName(){
@@ -48,8 +54,18 @@ public class CategoryPanel extends javax.swing.JPanel {
         jPanel5 = new javax.swing.JPanel();
         booksTotal = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        jButton2 = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(895, 65));
@@ -111,6 +127,7 @@ public class CategoryPanel extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Edit");
+        jButton1.setFocusPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(80, 22));
         jButton1.addActionListener(this::jButton1ActionPerformed);
         jPanel3.add(jButton1);
@@ -120,6 +137,7 @@ public class CategoryPanel extends javax.swing.JPanel {
         jButton2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Remove");
+        jButton2.setFocusPainted(false);
         jButton2.setPreferredSize(new java.awt.Dimension(80, 22));
         jButton2.addActionListener(this::jButton2ActionPerformed);
         jPanel3.add(jButton2);

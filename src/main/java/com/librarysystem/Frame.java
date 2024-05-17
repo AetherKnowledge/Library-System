@@ -38,7 +38,7 @@ import com.librarysystem.objects.User;
 import com.librarysystem.panels.popups.EditBookPopup;
 import com.librarysystem.panels.AdminDashboard;
 import com.librarysystem.panels.ClientDashboard;
-import com.librarysystem.panels.Members;
+import com.librarysystem.panels.account.Members;
 import com.librarysystem.panels.MyPanel;
 import com.librarysystem.panels.account.Entry;
 import com.librarysystem.panels.books.AddBook;

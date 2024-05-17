@@ -82,7 +82,12 @@ public class BookDetailsPopup extends JDialog{
         author = new javax.swing.JLabel();
         remaining = new javax.swing.JLabel();
         tag = new javax.swing.JLabel();
-        addToListButton = new javax.swing.JButton();
+        addToListButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         title = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         icon = new javax.swing.JLabel();

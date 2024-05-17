@@ -130,7 +130,7 @@ public final class UserHandler implements ObjectHandler{
         usersUpdating = false;
     }
     
-    public static void loadUsersOnline(){
+    private static void loadUsersOnline(){
         usersUpdating = true;
         usersList.removeAll(usersList);
         
@@ -287,17 +287,34 @@ public final class UserHandler implements ObjectHandler{
         usersUpdating = false;
     }  
     
-    public static int getOnlineCount(){
-        String query = "SELECT status FROM USER ";
+    public static boolean updateAllOnlineUsers(){
         usersUpdating = true;
-        int onlineCount = 0;
-        try {
-            ResultSet rs = con.createStatement().executeQuery(query);
-            while(rs.next()){
-                onlineCount += rs.getInt("status");
+        boolean hasChanged = false;
+        for (User user : usersList) {
+            String query = "SELECT status FROM user WHERE email = '" + user.getEmail() + "'";
+            try {
+                ResultSet rs = con.createStatement().executeQuery(query);
+                while(rs.next()){
+                    if (rs.getBoolean("status")) {
+                        user.setIsOnline(true);
+                        hasChanged = true;
+                    }
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        usersUpdating = false;
+        return hasChanged;
+    }
+    
+    public static int getOnlineCount(){
+        int onlineCount = 0;
+        for (User user : usersList) {
+            if (user.isOnline()) {
+                onlineCount++;
+            }
         }
         usersUpdating = false;
         return onlineCount;

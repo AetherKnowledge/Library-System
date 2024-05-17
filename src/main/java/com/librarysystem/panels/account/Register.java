@@ -30,6 +30,7 @@ import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.User;
 import com.librarysystem.objects.ui.PalleteColors;
 import com.librarysystem.objects.components.RoundedBorder;
+import com.librarysystem.objects.ui.Icons;
 
 public class Register extends javax.swing.JPanel {
     
@@ -204,8 +205,18 @@ public class Register extends javax.swing.JPanel {
         jPanel11 = new javax.swing.JPanel();
         userImgLabel = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        uploadImageButton = new javax.swing.JButton();
-        signInButton = new javax.swing.JButton();
+        uploadImageButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
+        signInButton = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
         jButton3 = new javax.swing.JButton(){
             @Override
             public void paint(Graphics g){
@@ -672,7 +683,7 @@ public class Register extends javax.swing.JPanel {
         emailTextField.setText("Email");
         passwordTextField.setText("Password");
         rePasswordTextField.setText("Password");
-        userImg = Utilities.getImage("/textures/noImage.png").getImage();
+        userImg = Icons.noImageIcon.getImage();
         userImg = userImg.getScaledInstance(userImgLabel.getPreferredSize().width, userImgLabel.getPreferredSize().height, Image.SCALE_SMOOTH);
         userImgLabel.setIcon(new ImageIcon(userImg));
         termsAndConditions.setSelected(false);
@@ -689,7 +700,7 @@ public class Register extends javax.swing.JPanel {
         emailTextField.setText("Email");
         passwordTextField.setText("Password");
         rePasswordTextField.setText("Password");
-        userImg = Utilities.getImage("/textures/noImage.png").getImage();
+        userImg = Icons.noImageIcon.getImage();
         userImg = userImg.getScaledInstance(userImgLabel.getPreferredSize().width, userImgLabel.getPreferredSize().height, Image.SCALE_SMOOTH);
         userImgLabel.setIcon(new ImageIcon(userImg));
         termsAndConditions.setSelected(false);

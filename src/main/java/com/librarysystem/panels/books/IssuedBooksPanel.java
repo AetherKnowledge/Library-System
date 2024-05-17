@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import com.librarysystem.handlers.BookHandler;
 import com.librarysystem.handlers.IssuedBooksHandler;
 import com.librarysystem.handlers.UserHandler;
+import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.Book;
 import com.librarysystem.objects.IssuedBook;
 import com.librarysystem.objects.IssuedBook.BorrowedBookStatus;
@@ -18,6 +19,7 @@ import com.librarysystem.objects.User;
 import com.librarysystem.objects.components.LineBorderSide;
 import com.librarysystem.objects.components.LineBorderSide.Side;
 import com.librarysystem.objects.components.RoundedBorder;
+import java.awt.Graphics;
 
 public class IssuedBooksPanel extends javax.swing.JPanel {
 
@@ -29,6 +31,7 @@ public class IssuedBooksPanel extends javax.swing.JPanel {
         
         if (borrowedBook.getStatus() == BorrowedBookStatus.RETURNED && borrowedBook.getDateReturned() == null) {
             System.out.println("Invalid borrowed Book");
+            IssuedBooksHandler.reloadIssuedBooksOnline();
             return;
         }
         
@@ -114,7 +117,12 @@ public class IssuedBooksPanel extends javax.swing.JPanel {
         jPanel8 = new javax.swing.JPanel();
         status = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton(){
+            @Override
+            public void paint(Graphics g){
+                Utilities.changeButtonColor(this, g);
+            }
+        };
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(895, 65));

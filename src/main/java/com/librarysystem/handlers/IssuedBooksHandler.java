@@ -17,6 +17,7 @@ import com.librarysystem.objects.Book;
 import com.librarysystem.objects.IssuedBook;
 import com.librarysystem.objects.IssuedBook.BorrowedBookStatus;
 import com.librarysystem.objects.User;
+import com.librarysystem.LibrarySystem;
 import java.util.stream.Collectors;
 
 public final class IssuedBooksHandler implements ObjectHandler{
@@ -245,7 +246,13 @@ public final class IssuedBooksHandler implements ObjectHandler{
         return hasBorrowedBookUpdated;
     }
     
-    public static void loadIssuedBooksOnline(){
+    public static void reloadIssuedBooksOnline(){
+        issuedBooksList.removeAll(issuedBooksList);
+        loadIssuedBooksOnline();
+        LibrarySystem.updateData();
+    }
+    
+    private static void loadIssuedBooksOnline(){
         issuedBooksUpdating = true;
         try {
             String query = "SELECT * FROM issuedbook";

@@ -16,4 +16,7 @@ public class PalleteColors {
     public static Color ENTRY_TEXT_LIGHT_COLOR = new Color(120,120,120);
     public static Color ENTRY_BACKGROUND_COLOR = new Color(231,231,231);
     public static Color TRANSPARENT = new Color(0,0,0,0);
+    
+    public static Color GREEN = new Color(95,192,170);
+    public static Color RED = new Color(171,37,51);
 }
