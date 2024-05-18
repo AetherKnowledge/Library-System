@@ -274,6 +274,7 @@ public class ProfileOptions extends javax.swing.JPanel {
             }
         };
         backButton = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(830, 610));
@@ -567,6 +568,11 @@ public class ProfileOptions extends javax.swing.JPanel {
         backButton.setPreferredSize(new java.awt.Dimension(30, 23));
         add(backButton);
         backButton.setBounds(801, 0, 30, 23);
+
+        jSeparator1.setBackground(new java.awt.Color(204, 204, 204));
+        jSeparator1.setForeground(new java.awt.Color(204, 204, 204));
+        add(jSeparator1);
+        jSeparator1.setBounds(0, 540, 830, 10);
     }// </editor-fold>//GEN-END:initComponents
 
     private void uploadImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadImageButtonActionPerformed
@@ -730,6 +736,7 @@ public class ProfileOptions extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JPasswordField rePasswordTextField;
     private javax.swing.JButton signInButton;

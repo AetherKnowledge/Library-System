@@ -175,12 +175,13 @@ public class OptionsPopup extends JDialog {
         jPanel1.add(profileBtn);
 
         settingsBtn.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        settingsBtn.setText("Delete Account");
+        settingsBtn.setText("Password");
         settingsBtn.setPreferredSize(new java.awt.Dimension(140, 50));
         settingsBtn.addActionListener(this::settingsBtnActionPerformed);
         jPanel1.add(settingsBtn);
 
         jPanel9.add(jPanel1, java.awt.BorderLayout.WEST);
+        jPanel1.setVisible(false);
 
         cardPanel.setBackground(new java.awt.Color(255, 255, 255));
         cardPanel.setLayout(new java.awt.CardLayout());
@@ -268,19 +269,19 @@ public class OptionsPopup extends JDialog {
         getContentPane().add(jPanel13, java.awt.BorderLayout.WEST);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileBtnActionPerformed
-        settingsBtn.setSelected(false);
-        settingsBtn.setEnabled(true);
-        profileBtn.setEnabled(false);
-        layout.show(cardPanel, OptionsPanels.PROFILE.name());
-    }//GEN-LAST:event_profileBtnActionPerformed
-
     private void settingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBtnActionPerformed
         profileBtn.setSelected(false);
         profileBtn.setEnabled(true);
         settingsBtn.setEnabled(false);
         layout.show(cardPanel, OptionsPanels.ACCOUNT.name());
     }//GEN-LAST:event_settingsBtnActionPerformed
+
+    private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileBtnActionPerformed
+        settingsBtn.setSelected(false);
+        settingsBtn.setEnabled(true);
+        profileBtn.setEnabled(false);
+        layout.show(cardPanel, OptionsPanels.PROFILE.name());
+    }//GEN-LAST:event_profileBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

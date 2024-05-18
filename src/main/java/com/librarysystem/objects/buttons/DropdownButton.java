@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import com.librarysystem.objects.components.Dropdown;
+import com.librarysystem.panels.popups.Dropdown;
 import com.librarysystem.objects.ui.PalleteColors;
 
 public class DropdownButton extends JButton{

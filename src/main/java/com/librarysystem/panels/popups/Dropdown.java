@@ -1,5 +1,5 @@
 
-package com.librarysystem.objects.components;
+package com.librarysystem.panels.popups;
 
 import com.librarysystem.objects.buttons.DropdownButton;
 import javax.swing.ImageIcon;
