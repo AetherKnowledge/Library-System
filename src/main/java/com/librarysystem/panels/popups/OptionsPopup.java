@@ -158,7 +158,7 @@ public class OptionsPopup extends JDialog {
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
 
-        setPreferredSize(new java.awt.Dimension(980, 620));
+        setPreferredSize(new java.awt.Dimension(840, 620));
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setLayout(new java.awt.BorderLayout());
@@ -196,7 +196,7 @@ public class OptionsPopup extends JDialog {
         backButton.setText("jButton1");
         backButton.setPreferredSize(new java.awt.Dimension(30, 23));
         accountPanel.add(backButton);
-        backButton.setBounds(801, 0, 30, 23);
+        backButton.setBounds(660, 0, 30, 23);
 
         cardPanel.add(accountPanel, "ACCOUNT");
 
@@ -211,7 +211,7 @@ public class OptionsPopup extends JDialog {
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 980, Short.MAX_VALUE)
+            .addGap(0, 840, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +227,7 @@ public class OptionsPopup extends JDialog {
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 980, Short.MAX_VALUE)
+            .addGap(0, 840, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

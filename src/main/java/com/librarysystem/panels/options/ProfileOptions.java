@@ -624,6 +624,7 @@ public class ProfileOptions extends javax.swing.JPanel {
         String email = emailTextField.getText();
         String password = String.valueOf(passwordTextField.getPassword());
         String rePassword = String.valueOf(rePasswordTextField.getPassword());
+        boolean emptyPass = password.isEmpty() || password.equals("Password");
         
         if (!email.equals(user.getEmail()) && UserHandler.doesUserExist(email, "") ) {
             JOptionPane.showMessageDialog(new JFrame(), "Email already Exists.");
@@ -655,33 +656,31 @@ public class ProfileOptions extends javax.swing.JPanel {
             Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
-        else if (password.isEmpty() || password.equals("Password")) {
-            JOptionPane.showMessageDialog(new JFrame(), "Password Field Empty.");
-            Frame.getPopup().setAlwaysOnTop(true);
-            return;
-        }
-        else if (password.length() < 8) {
+        else if (!emptyPass && password.length() < 8) {
             JOptionPane.showMessageDialog(new JFrame(), "Password must be greater than 8 characters.");
             Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
-        else if (!containsSpecial(password)) {
+        else if (!emptyPass && !containsSpecial(password)) {
             JOptionPane.showMessageDialog(new JFrame(), "Password must contain special character.");
             Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
-        else if (!password.equals(rePassword)) {
+        else if (!emptyPass && !password.equals(rePassword)) {
             JOptionPane.showMessageDialog(new JFrame(), "Password not the same.");
             Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
         
         password = Utilities.toBcrypt(passwordTextField.getPassword());
+        if (emptyPass) {
+            password = user.getPassword();
+        }
+        
         User newUser = new User(User.UserType.USER, email, password,fullName,studentNum,userImg,user.getDateJoined(),LocalDateTime.now(),user.isImageDefault());
         
         UserHandler.updateUser(newUser,user.getEmail());
-        
-        if (UserHandler.isLoginSuccessful(email, passwordTextField.getPassword())) {
+        if (UserHandler.changeUser(newUser)) {
             JOptionPane.showMessageDialog(new JFrame(), "User changed successful");
         }
         

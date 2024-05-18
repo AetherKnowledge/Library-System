@@ -27,7 +27,6 @@ public class Dropdown extends JPanel {
     
     public enum DropdownButtonType{
         PROFILE("Profile",Utilities.getImage("/textures/profile.png"),PanelTypes.PROFILE),
-        SETTINGS("Settings",Utilities.getImage("/textures/settings.png"),PanelTypes.SETTINGS),
         ENTRY("Log out",Utilities.getImage("/textures/logout.png"),PanelTypes.ENTRY);
         
         public String text;
@@ -45,20 +44,15 @@ public class Dropdown extends JPanel {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(65, 78, 101));
-        setPreferredSize(new java.awt.Dimension(200, 150));
+        setPreferredSize(new java.awt.Dimension(200, 100));
         setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
 
         jButton1.setText("Profile");
         jButton1.setPreferredSize(new java.awt.Dimension(200, 50));
         add(jButton1);
-
-        jButton2.setText("Settings");
-        jButton2.setPreferredSize(new java.awt.Dimension(200, 50));
-        add(jButton2);
 
         jButton3.setText("Log out");
         jButton3.setPreferredSize(new java.awt.Dimension(200, 50));
@@ -68,7 +62,6 @@ public class Dropdown extends JPanel {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     // End of variables declaration//GEN-END:variables
 }
