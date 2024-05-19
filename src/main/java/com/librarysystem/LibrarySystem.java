@@ -22,6 +22,7 @@ import com.librarysystem.handlers.IssuedBooksHandler;
 import com.librarysystem.handlers.ObjectHandler;
 import com.librarysystem.handlers.OfflineHandler;
 import com.librarysystem.handlers.UserHandler;
+import com.librarysystem.panels.AdminDashboard;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -176,13 +177,17 @@ public class LibrarySystem{
             if (IssuedBooksHandler.hasIssuedBookUpdated()) hasUpdated = true;
             if (UserHandler.hasUsersUpdated()) hasUpdated = true;
             if (GraphHandler.hasGraphUpdated()) hasUpdated = true;
-            if (UserHandler.updateAllOnlineUsers()) hasUpdated = true;
+            
+            boolean usersUpdated = false;
+            if (UserHandler.updateAllOnlineUsers()) usersUpdated = true;
             int newOnlineCount = UserHandler.getOnlineCount();
             if (onlineCount != newOnlineCount) {
                 onlineCount = newOnlineCount;
-                
-                hasUpdated = true;
+                usersUpdated = true;
                 System.out.println("Online Count Changed");
+            }
+            if (usersUpdated && Frame.getCurrentPanel() instanceof AdminDashboard) {
+                updateData();
             }
             
             if (hasUpdated) {

@@ -504,6 +504,7 @@ public class BookList extends MyPanel{
         removeBooks();
         addBooks();
         search();
+        resize();
     }
         
     private void sortBooks(){

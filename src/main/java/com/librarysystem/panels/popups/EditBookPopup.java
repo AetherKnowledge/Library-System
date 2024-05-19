@@ -824,9 +824,6 @@ public class EditBookPopup extends JDialog{
             return;
         }
         
-        bookIconImg = bookIconImg.getScaledInstance(130, 174, Image.SCALE_SMOOTH);
-        System.out.println("");
-        
         Book newBook = new Book(new ImageIcon(bookIconImg).getImage(),bookId,title,author,tagID,description,bookStatus,dateSelected,Timestamp.valueOf(LocalDateTime.now()),maxDaysAdminBorrowed,maxDaysUserBorrowed,totalAmmount,ammountLeft,book.isImageDefault());
 
         BookHandler.updateBook(newBook, book.getBookID());
