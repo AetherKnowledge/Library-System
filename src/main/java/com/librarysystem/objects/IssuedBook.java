@@ -2,6 +2,7 @@
 package com.librarysystem.objects;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class IssuedBook implements Serializable{
@@ -13,13 +14,13 @@ public class IssuedBook implements Serializable{
     private final String email;
     private final String bookID;
     private final String bookName;
-    private final LocalDateTime dateBorrowed;
+    private final Timestamp dateBorrowed;
     private final LocalDateTime dateReturned;
     private final int borrowDuration;
     private BorrowedBookStatus status;
     private final LocalDateTime lastUpdated;
     
-    public IssuedBook(String email, String bookID, String bookName, LocalDateTime dateBorrowed, LocalDateTime dateReturned, int borrowDuration, BorrowedBookStatus status, LocalDateTime lastUpdated){
+    public IssuedBook(String email, String bookID, String bookName, Timestamp dateBorrowed, LocalDateTime dateReturned, int borrowDuration, BorrowedBookStatus status, LocalDateTime lastUpdated){
         this.email = email;
         this.bookName = bookName;
         this.bookID = bookID;
@@ -54,7 +55,7 @@ public class IssuedBook implements Serializable{
         return bookName;
     }
 
-    public LocalDateTime getDateBorrowed() {
+    public Timestamp getDateBorrowed() {
         return dateBorrowed;
     }
 

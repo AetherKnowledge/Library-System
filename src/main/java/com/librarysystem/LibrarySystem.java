@@ -57,6 +57,7 @@ public class LibrarySystem{
                 
             }
             catch (SQLException e){
+                Logger.getLogger(LibrarySystem.class.getName()).log(Level.SEVERE, null, e);
                 loadOffline();
             }
         });
@@ -154,14 +155,11 @@ public class LibrarySystem{
     public static void checkSQLUpdates(){
         
         System.out.println("Active Threads : " + Thread.activeCount());
-        Thread updateOnlineStatus = new Thread(()->{
-            if (UserHandler.getCurrentUser() != null) {
-                UserHandler.updateOnlineStatus(UserHandler.getCurrentUser());
-                System.out.println(UserHandler.getCurrentUser().getFullName() + " is Online.");
-            }
-        });
-        updateOnlineStatus.start();
-        
+//        Thread updateOnlineStatus = new Thread(()->{
+//            
+//        });
+//        updateOnlineStatus.start();
+//        
         if (updating || UserHandler.isUsersUpdating() || BookHandler.isBookUpdating() || CategoryHandler.isCategoryUpdating() || IssuedBooksHandler.isIssuedBooksUpdating() || GraphHandler.isGraphUpdating()) {
             System.out.println("Updating data please wait");
             return;
@@ -169,6 +167,11 @@ public class LibrarySystem{
         
         Thread sqlUpdateThread = new Thread(() -> {
             updating = true;
+            
+            if (UserHandler.getCurrentUser() != null) {
+                UserHandler.updateOnlineStatus(UserHandler.getCurrentUser());
+                System.out.println(UserHandler.getCurrentUser().getFullName() + " is Online.");
+            }
             
             System.out.println("Checking database if it updated");
             boolean hasUpdated = false;

@@ -23,6 +23,8 @@ import com.librarysystem.handlers.Utilities;
 import java.awt.Graphics;
 import java.time.LocalDateTime;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class BookPanel extends JPanel {
@@ -78,7 +80,7 @@ public class BookPanel extends JPanel {
                     authorTextField.setFont(new Font("Roboto", Font.BOLD, 12));
                 }
                 case BORROWED -> {
-                    LocalDateTime dateWritten = borrowed.getDateBorrowed().minusDays(borrowed.getBorrowDuration());
+                    LocalDateTime dateWritten = borrowed.getDateBorrowed().toLocalDateTime().minusDays(borrowed.getBorrowDuration());
                     String month = dateWritten.getMonth().toString().toLowerCase();
                     month = Character.toString(Character.toUpperCase(month.charAt(0))) + month.substring(1, month.length());
                     String day = Integer.toString(dateWritten.getDayOfMonth());
@@ -243,6 +245,7 @@ public class BookPanel extends JPanel {
     private void returnButtonAction(){
         Frame.removePopup();
         IssuedBooksHandler.setIssuedBookPending(borrowed);
+        JOptionPane.showMessageDialog(new JFrame(), "Book "+ book.getTitle() + " Return Pending");
         
         jPanel11.removeAll();
         JLabel pendingLabel = new JLabel();

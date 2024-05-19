@@ -43,13 +43,13 @@ public class IssuedBooksPanel extends javax.swing.JPanel {
         bookID.setText(book.getBookID());
         bookTitle.setText(book.getTitle());
         borrower.setText(user.getEmail());
-        String month = borrowedBook.getDateBorrowed().getMonth().toString().toLowerCase();
+        String month = borrowedBook.getDateBorrowed().toLocalDateTime().getMonth().toString().toLowerCase();
         month = Character.toString(Character.toUpperCase(month.charAt(0))) + month.substring(1, month.length());
-        String day = Integer.toString(borrowedBook.getDateBorrowed().getDayOfMonth());
+        String day = Integer.toString(borrowedBook.getDateBorrowed().toLocalDateTime().getDayOfMonth());
         String year = Integer.toString(borrowedBook.getDateBorrowed().getYear());
         borrowDate.setText(month + ", " + day + " " + year);
         
-        LocalDateTime dateToReturn = borrowedBook.getDateBorrowed().plusDays(borrowedBook.getBorrowDuration());
+        LocalDateTime dateToReturn = borrowedBook.getDateBorrowed().toLocalDateTime().plusDays(borrowedBook.getBorrowDuration());
         
         month = dateToReturn.getMonth().toString().toLowerCase();
         month = Character.toString(Character.toUpperCase(month.charAt(0))) + month.substring(1, month.length());

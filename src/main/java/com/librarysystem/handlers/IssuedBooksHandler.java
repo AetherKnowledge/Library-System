@@ -18,7 +18,6 @@ import com.librarysystem.objects.IssuedBook;
 import com.librarysystem.objects.IssuedBook.BorrowedBookStatus;
 import com.librarysystem.objects.User;
 import com.librarysystem.LibrarySystem;
-import java.util.stream.Collectors;
 
 public final class IssuedBooksHandler implements ObjectHandler{
     
@@ -45,7 +44,7 @@ public final class IssuedBooksHandler implements ObjectHandler{
             st.setString(1, book.getEmail());
             st.setString(2, book.getBookID());
             st.setString(3, book.getBookName());
-            st.setTimestamp(4, Timestamp.valueOf(book.getDateBorrowed()));
+            st.setTimestamp(4, book.getDateBorrowed());
             if (book.getDateReturned() == null) st.setTimestamp(5,null);
             else st.setTimestamp(5, Timestamp.valueOf(book.getDateReturned()));
             st.setInt(6, book.getBorrowDuration());
@@ -54,6 +53,7 @@ public final class IssuedBooksHandler implements ObjectHandler{
             
             issuedBooksList.add(book);
             OfflineHandler.saveIssuedBooksOffline(issuedBooksList);
+            loadIssuedBooksOnline();
         }
         catch (SQLException ex) {
             Logger.getLogger(IssuedBooksHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -67,16 +67,14 @@ public final class IssuedBooksHandler implements ObjectHandler{
         issuedBooksUpdating = true;
         String query = "UPDATE issuedbook SET status = ? WHERE email = ? AND bookID = ? AND dateBorrowed = ?";
         try {
-            PreparedStatement st;
-            
-            st = con.prepareCall(query);
+            PreparedStatement st = con.prepareCall(query);
             st.setString(1, book.getStatus().name());
             st.setString(2, book.getEmail());
             st.setString(3, book.getBookID());
-            st.setTimestamp(4, Timestamp.valueOf(book.getDateBorrowed()));
-            st.executeUpdate();
+            st.setTimestamp(4, book.getDateBorrowed());
+            System.out.println(book);
+            st.execute();
             
-            issuedBooksList.stream().filter(oldIssuedBook -> oldIssuedBook.getEmail().equals(book.getEmail()) && oldIssuedBook.getBookID().equals(book.getBookID()) && oldIssuedBook.getDateBorrowed() == book.getDateBorrowed()).collect(Collectors.toList()).forEach(oldIssuedBook -> oldIssuedBook = book);
             OfflineHandler.saveIssuedBooksOffline(issuedBooksList);
         } catch (SQLException ex) {
             Logger.getLogger(IssuedBooksHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,10 +95,9 @@ public final class IssuedBooksHandler implements ObjectHandler{
             st.setString(2, book.getStatus().name());
             st.setString(3, book.getEmail());
             st.setString(4, book.getBookID());
-            st.setTimestamp(5, Timestamp.valueOf(book.getDateBorrowed()));
+            st.setTimestamp(5, book.getDateBorrowed());
             st.executeUpdate();
             
-            issuedBooksList.stream().filter(oldIssuedBook -> oldIssuedBook.getEmail().equals(book.getEmail()) && oldIssuedBook.getBookID().equals(book.getBookID()) && oldIssuedBook.getDateBorrowed() == book.getDateBorrowed()).collect(Collectors.toList()).forEach(oldIssuedBook -> oldIssuedBook = book);
             OfflineHandler.saveIssuedBooksOffline(issuedBooksList);
             JOptionPane.showMessageDialog(new JFrame(), "Issued Book Returned","Return Book",1);
         } catch (SQLException ex) {
@@ -120,7 +117,7 @@ public final class IssuedBooksHandler implements ObjectHandler{
             st = con.prepareCall(query);
             st.setString(1, book.getEmail());
             st.setString(2, book.getBookID());
-            st.setTimestamp(3, Timestamp.valueOf(book.getDateBorrowed()));
+            st.setTimestamp(3, book.getDateBorrowed());
             st.executeUpdate();
             
             issuedBooksList.remove(book);
@@ -146,7 +143,7 @@ public final class IssuedBooksHandler implements ObjectHandler{
                 PreparedStatement pst = con.prepareCall(query);
                 pst.setString(1, borrowedBook.getEmail());
                 pst.setString(2, borrowedBook.getBookID());
-                pst.setTimestamp(3, Timestamp.valueOf(borrowedBook.getDateBorrowed()));
+                pst.setTimestamp(3, borrowedBook.getDateBorrowed());
                 pst.execute();
                 
                 ResultSet resultSet = pst.getResultSet();
@@ -158,7 +155,7 @@ public final class IssuedBooksHandler implements ObjectHandler{
                         PreparedStatement pst2 = con.prepareCall(getCategory);
                         pst2.setString(1, borrowedBook.getEmail());
                         pst2.setString(2, borrowedBook.getBookID());
-                        pst2.setTimestamp(3, Timestamp.valueOf(borrowedBook.getDateBorrowed()));
+                        pst2.setTimestamp(3, borrowedBook.getDateBorrowed());
                         pst2.execute();
                         
                         ResultSet getCategoryResult = pst2.getResultSet();
@@ -257,6 +254,7 @@ public final class IssuedBooksHandler implements ObjectHandler{
     
     private static void loadIssuedBooksOnline(){
         issuedBooksUpdating = true;
+        issuedBooksList.removeAll(issuedBooksList);
         try {
             String query = "SELECT * FROM issuedbook";
             ResultSet resultSet = con.createStatement().executeQuery(query);
@@ -276,7 +274,7 @@ public final class IssuedBooksHandler implements ObjectHandler{
         String email = rs.getString("email");
         String bookID = rs.getString("bookID");
         String bookName = rs.getString("bookName");
-        LocalDateTime dateBorrowed = rs.getTimestamp("dateBorrowed").toLocalDateTime();
+        Timestamp dateBorrowed = rs.getTimestamp("dateBorrowed");
         LocalDateTime dateReturned;
         Timestamp ts = rs.getTimestamp("dateReturned");
         if (ts == null) dateReturned = null;
@@ -360,9 +358,7 @@ public final class IssuedBooksHandler implements ObjectHandler{
             throw new NullPointerException();
         }
         
-        issuedBooksList.stream().filter(cacheBook -> book.equals(cacheBook)).forEach(cacheBook -> {
-            cacheBook.setStatus(BorrowedBookStatus.PENDING);
-        });
+
         book.setStatus(BorrowedBookStatus.PENDING);
         updateIssuedBook(book);
         issuedBooksUpdating = false;
@@ -387,7 +383,7 @@ public final class IssuedBooksHandler implements ObjectHandler{
             }
         }
         
-        IssuedBook borrowedBook = new IssuedBook(UserHandler.getCurrentUser().getEmail(),book.getBookID(), book.getTitle(), LocalDateTime.now(),null, daysToBorrow,IssuedBook.BorrowedBookStatus.BORROWED, LocalDateTime.now());
+        IssuedBook borrowedBook = new IssuedBook(UserHandler.getCurrentUser().getEmail(),book.getBookID(), book.getTitle(), Timestamp.valueOf(LocalDateTime.now()),null, daysToBorrow,IssuedBook.BorrowedBookStatus.BORROWED, LocalDateTime.now());
         addIssuedBook(borrowedBook);
         
         book.removeAmmountLeft(1);

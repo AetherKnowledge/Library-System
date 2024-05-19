@@ -9,6 +9,7 @@ import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.IssuedBook;
 import com.librarysystem.objects.buttons.ImageButton;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -32,17 +33,17 @@ public class TestShit {
     }
     
     public static void makeOverDue(){
-        IssuedBook borrowedBook = new IssuedBook("user","wew", "wew", LocalDateTime.now().minusDays(3),null, 1,IssuedBook.BorrowedBookStatus.BORROWED,LocalDateTime.now());
+        IssuedBook borrowedBook = new IssuedBook("user","wew", "wew", Timestamp.valueOf(LocalDateTime.now().minusDays(3)),null, 1,IssuedBook.BorrowedBookStatus.BORROWED,LocalDateTime.now());
         IssuedBooksHandler.addIssuedBook(borrowedBook);
     }
     
     public static void returnedTest(){
-        IssuedBook borrowedBook = new IssuedBook("therumbling@gmail.com","Attack on Titan", "Attack on Titan", LocalDateTime.now().minusDays(3),LocalDateTime.now(), 1,IssuedBook.BorrowedBookStatus.RETURNED,LocalDateTime.now());
+        IssuedBook borrowedBook = new IssuedBook("therumbling@gmail.com","Attack on Titan", "Attack on Titan", Timestamp.valueOf(LocalDateTime.now().minusDays(3)),LocalDateTime.now(), 1,IssuedBook.BorrowedBookStatus.RETURNED,LocalDateTime.now());
         IssuedBooksHandler.addIssuedBook(borrowedBook);
     }
     
     public static void removeTest(){
-        IssuedBook borrowedBook = new IssuedBook("user","The Fellowship of the Ring", "The Fellowship of the Ring", LocalDateTime.now().minusDays(3),null, 1,IssuedBook.BorrowedBookStatus.BORROWED,LocalDateTime.now());
+        IssuedBook borrowedBook = new IssuedBook("user","The Fellowship of the Ring", "The Fellowship of the Ring", Timestamp.valueOf(LocalDateTime.now().minusDays(3)),null, 1,IssuedBook.BorrowedBookStatus.BORROWED,LocalDateTime.now());
         IssuedBooksHandler.removeIssuedBook(borrowedBook);
     }
     
