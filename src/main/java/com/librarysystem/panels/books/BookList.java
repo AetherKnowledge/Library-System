@@ -14,10 +14,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import com.librarysystem.Frame;
 import com.librarysystem.handlers.Utilities;
-import com.librarysystem.objects.Category;
 import com.librarysystem.objects.ui.PalleteColors;
 import com.librarysystem.objects.components.RoundedBorder;
 import com.librarysystem.panels.MyPanel;
+import java.util.Collections;
 import javax.swing.DefaultComboBoxModel;
 
 public class BookList extends MyPanel{
@@ -28,10 +28,10 @@ public class BookList extends MyPanel{
     private Image refreshIcon = Utilities.getImage("/textures/refresh.png").getImage();
     private Image categoryImg = Utilities.getImage("/textures/categories.png").getImage();
     private Image sortImg = Utilities.getImage("/textures/sort.png").getImage();
-    private Object selectedCategory = "None";
+    private String selectedCategory = "None";
     private final ArrayList<BookPanel> currentBookList = new ArrayList<>();
     private final ArrayList<BookPanel> shownBooks = new ArrayList<>();
-    private final ArrayList<Category> categories = new ArrayList<>();
+    private final ArrayList<String> categories = new ArrayList<>();
     private static boolean keepPopupVisible = false;
 
     public BookList() {
@@ -46,7 +46,7 @@ public class BookList extends MyPanel{
                 return;
             }
             
-            selectedCategory = tagSearchCB.getSelectedItem();
+            selectedCategory = (String)tagSearchCB.getSelectedItem();
             search();
             clearButton.requestFocus();
         });
@@ -93,10 +93,10 @@ public class BookList extends MyPanel{
             for (BookPanel bookPanel : currentBookList) {
                 bookList.add(bookPanel);
                 shownBooks.add(bookPanel);
-                if (!categories.contains(bookPanel.getCategory())) {
-                    categories.add(bookPanel.getCategory());
+                if (!categories.contains(bookPanel.getCategory().toString())) {
+                    categories.add(bookPanel.getCategory().toString());
                 }
-                categories.sort(Comparator.comparing(Category::getCategoryID));
+                Collections.sort(categories);
             }
         }
         
@@ -109,7 +109,7 @@ public class BookList extends MyPanel{
         tagSearchCB.removeAllItems();
         tagSearchCB.addItem("None");
         DefaultComboBoxModel model = (DefaultComboBoxModel) tagSearchCB.getModel();
-        for (Category category : categories) {
+        for (String category : categories) {
             model.addElement(category);
         }
     }
@@ -469,7 +469,7 @@ public class BookList extends MyPanel{
             boolean searchContainsTitle = bookPanel.getTitle().toLowerCase().contains(bookNameSearch.getText().toLowerCase());
             boolean searchContainsTags = false;
             
-            if (bookPanel.getCategory() == selectedCategory || selectedCategory == "None") {
+            if (bookPanel.getCategory().toString().equals(selectedCategory) || selectedCategory.equals("None")) {
                 searchContainsTags = true;
             }
             

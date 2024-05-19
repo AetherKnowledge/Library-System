@@ -287,6 +287,7 @@ public class EditBookPopup extends JDialog{
         jPanel13 = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(224, 224, 224));
+        setPreferredSize(new java.awt.Dimension(589, 643));
 
         jPanel9.setBackground(new java.awt.Color(224, 224, 224));
         jPanel9.setLayout(null);
