@@ -18,6 +18,8 @@ import com.librarysystem.objects.IssuedBook;
 import com.librarysystem.objects.IssuedBook.BorrowedBookStatus;
 import com.librarysystem.objects.User;
 import com.librarysystem.LibrarySystem;
+import java.util.Collections;
+import java.util.Comparator;
 
 public final class IssuedBooksHandler implements ObjectHandler{
     
@@ -327,6 +329,23 @@ public final class IssuedBooksHandler implements ObjectHandler{
         return books;
     }
     
+    public static Book getMostRecentBook(String email){
+        ArrayList<IssuedBook> issuedBook = getIssuedBooksFromUser(email);
+        for (int i = 0; i < issuedBook.size(); i++) {
+            IssuedBook book = issuedBook.get(i);
+            if (book.getStatus() != IssuedBook.BorrowedBookStatus.BORROWED) {
+                issuedBook.remove(i);
+                i--;
+            }
+        }
+        Collections.sort(issuedBook,new IssuedBookTimeComparator());
+        Book toReturn = null;
+        if (!issuedBook.isEmpty()) {
+            toReturn = BookHandler.getBook(issuedBook.get(issuedBook.size()-1).getBookID());
+        }
+        return toReturn;
+    }
+     
     public static int getIssuedBooksCountFromUser(String email){
         issuedBooksUpdating = true;
         int count = 0;
@@ -405,3 +424,10 @@ public final class IssuedBooksHandler implements ObjectHandler{
     }
     
 }
+
+    class IssuedBookTimeComparator implements Comparator<IssuedBook> {
+        @Override
+        public int compare(IssuedBook obj1, IssuedBook obj2) {
+            return obj1.getDateBorrowed().toLocalDateTime().compareTo(obj2.getDateBorrowed().toLocalDateTime());
+        }
+    }

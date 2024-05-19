@@ -24,7 +24,7 @@ public class Entry extends MyPanel{
     private static final CardLayout cardLayout = new CardLayout();
     
     public Entry(){
-        bgImage = Utilities.getImage("/textures/entryBG.png").getImage();
+        bgImage = Utilities.getImage("/textures/entryBG.jpg").getImage();
         setBackground(new Color(0,0,0,0));
         setLayout(cardLayout);
         

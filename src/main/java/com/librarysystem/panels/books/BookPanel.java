@@ -125,6 +125,10 @@ public class BookPanel extends JPanel {
         
     }
     
+    public void removeBtn(){
+        jPanel11.removeAll();
+    }
+    
     public Book getBook(){
         return book;
     }
