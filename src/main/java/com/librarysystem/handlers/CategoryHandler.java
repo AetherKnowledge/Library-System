@@ -56,7 +56,7 @@ public final class CategoryHandler implements ObjectHandler{
             st.setString(4, categoryID);
             st.setString(5, categoryName);
             st.setInt(6, booksInTotal);
-            st.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            st.setTimestamp(7, cat.getLastUpdated());
             st.executeUpdate();
             
             OfflineHandler.saveCategoriesOffline(categoryList);

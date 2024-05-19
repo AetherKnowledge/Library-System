@@ -142,6 +142,9 @@ public class BookList extends MyPanel{
     }    
     
     public void removeBooks(){
+        DefaultComboBoxModel model = (DefaultComboBoxModel) tagSearchCB.getModel();
+        model.removeAllElements();
+        
         currentBookList.clear();
     }
 
