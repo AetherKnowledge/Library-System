@@ -483,6 +483,7 @@ public class BookList extends MyPanel{
         }
         
         sortBooks();
+        resize();
     }
     
     @Override

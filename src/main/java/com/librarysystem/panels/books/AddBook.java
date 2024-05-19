@@ -612,8 +612,8 @@ public class AddBook extends MyPanel {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             bookIconImg = new ImageIcon(selectedFile.getAbsolutePath()).getImage();
-            bookIconImg = bookIconImg.getScaledInstance(bookIconLabel.getPreferredSize().width, bookIconLabel.getPreferredSize().height, Image.SCALE_SMOOTH);
-            bookIconLabel.setIcon(new ImageIcon(bookIconImg));
+            Image bookIconImgResized = bookIconImg.getScaledInstance(bookIconLabel.getPreferredSize().width, bookIconLabel.getPreferredSize().height, Image.SCALE_SMOOTH);
+            bookIconLabel.setIcon(new ImageIcon(bookIconImgResized));
             bookIconLabel.setBorder(new RoundedBorder(8,1));
             changedImage = true;
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());

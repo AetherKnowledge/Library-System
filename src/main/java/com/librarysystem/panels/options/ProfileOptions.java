@@ -591,8 +591,8 @@ public class ProfileOptions extends javax.swing.JPanel {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             userImg = new ImageIcon(selectedFile.getAbsolutePath()).getImage();
-            userImg = userImg.getScaledInstance(userImgLabel.getWidth(), userImgLabel.getHeight(), Image.SCALE_SMOOTH);
-            userImgLabel.setIcon(new ImageIcon(userImg));
+            Image userImgForLabel = userImg.getScaledInstance(userImgLabel.getWidth(), userImgLabel.getHeight(), Image.SCALE_SMOOTH);
+            userImgLabel.setIcon(new ImageIcon(userImgForLabel));
             user.setIsImageDefault(false);
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
         } else {

@@ -599,8 +599,8 @@ public class Register extends javax.swing.JPanel {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             userImg = new ImageIcon(selectedFile.getAbsolutePath()).getImage();
-            userImg = userImg.getScaledInstance(userImgLabel.getWidth(), userImgLabel.getHeight(), Image.SCALE_SMOOTH);
-            userImgLabel.setIcon(new ImageIcon(userImg));
+            Image userImgForLabel = userImg.getScaledInstance(userImgLabel.getWidth(), userImgLabel.getHeight(), Image.SCALE_SMOOTH);
+            userImgLabel.setIcon(new ImageIcon(userImgForLabel));
             changedImage = true;
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
         } else {

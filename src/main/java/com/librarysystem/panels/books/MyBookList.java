@@ -15,7 +15,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import com.librarysystem.handlers.UserHandler;
 import com.librarysystem.handlers.Utilities;
-import com.librarysystem.objects.Category;
 import com.librarysystem.objects.ui.PalleteColors;
 import com.librarysystem.objects.components.RoundedBorder;
 import com.librarysystem.panels.MyPanel;
@@ -68,7 +67,6 @@ public class MyBookList extends MyPanel{
         
         tagSearchCB.addItem("None");
         tagSearchCB.setSelectedItem("None");
- 
     }
     
     public void addBooks(){
@@ -501,6 +499,7 @@ public class MyBookList extends MyPanel{
         }
         
         sortBooks();
+        resize();
     }
     
     @Override
