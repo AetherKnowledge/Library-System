@@ -27,6 +27,7 @@ public class Dropdown extends JPanel {
     
     public enum DropdownButtonType{
         PROFILE("Profile",Utilities.getImage("/textures/profile.png"),PanelTypes.PROFILE),
+//        SETTINGS("Settings",Utilities.getImage("/textures/settings.png"),PanelTypes.SETTINGS),
         ENTRY("Log out",Utilities.getImage("/textures/logout.png"),PanelTypes.ENTRY);
         
         public String text;
