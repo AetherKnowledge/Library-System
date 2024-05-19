@@ -1,6 +1,7 @@
 
 package com.librarysystem.panels;
 
+import com.librarysystem.handlers.IssuedBooksHandler;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,17 +18,20 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import com.librarysystem.handlers.UserHandler;
 import com.librarysystem.handlers.Utilities;
+import com.librarysystem.objects.Book;
 import com.librarysystem.objects.ui.PalleteColors;
 import com.librarysystem.objects.components.RoundedBorder;
 import com.librarysystem.objects.User;
 import com.librarysystem.objects.ui.Icons;
+import com.librarysystem.panels.books.BookPanel;
+import java.awt.Component;
 
 public class ClientDashboard extends MyPanel {
     
     Image emailIcon = Icons.emailIcon.getImage();
     Image person = Utilities.getImage("/textures/user.png").getImage();
     Image numberIcon = Utilities.getImage("/textures/number.png").getImage();
-    Image locationIcon = Utilities.getImage("/textures/location.png").getImage();
+    Image bookIcon = Utilities.getImage("/textures/books.png").getImage();
     Image calendarIcon = Utilities.getImage("/textures/calendar.png").getImage();
     Image ayaya = Utilities.getImage("/textures/ayaya.png").getImage();
     Image showMore = Utilities.getImage("/textures/showMore.png").getImage();
@@ -57,10 +61,33 @@ public class ClientDashboard extends MyPanel {
         fullNameLabel.setText(currentUser.getFullName());
         emailLabel.setText(currentUser.getEmail());
         studentNumber.setText(currentUser.getStudentNumber());
-        locationLabel.setText("Philippines");
+        bookCountLabel.setText(Integer.toString(IssuedBooksHandler.getIssuedBooksCountFromUser(currentUser.getEmail())));
         userImgLabel.setIcon(new ImageIcon(userIcon));
         dateJoinedLabel.setText(monthResized + " " + date.getDayOfMonth() + ", " + date.getYear());
         
+        for (Component component : jPanel5.getComponents()) {
+            if (component instanceof JPanel) {
+                jPanel5.remove(component);
+            }
+        }
+        
+        Book book = IssuedBooksHandler.getMostRecentBook(currentUser.getEmail());
+        if (book != null) {
+            jLabel9.setVisible(false);
+            BookPanel recentBook = new BookPanel(book);
+            recentBook.removeBtn();
+            jPanel5.add(recentBook);
+        }
+        else{
+            jLabel9.setVisible(true);
+            for (Component component : jPanel5.getComponents()) {
+                if (component instanceof JPanel) {
+                    jPanel5.remove(component);
+                }
+            }
+        }
+        this.revalidate();
+        this.repaint();
     }
     
     private void toggleButton(JToggleButton btn){
@@ -104,6 +131,7 @@ public class ClientDashboard extends MyPanel {
         btn.setBorder(BorderFactory.createEmptyBorder());
         addListener(btn);
         
+        btn.setVisible(false);
         parent.add(btn,BorderLayout.EAST);
     }
     
@@ -134,7 +162,7 @@ public class ClientDashboard extends MyPanel {
         fullNameLabel = new javax.swing.JLabel();
         emailLabel = new javax.swing.JLabel();
         studentNumber = new javax.swing.JLabel();
-        locationLabel = new javax.swing.JLabel();
+        bookCountLabel = new javax.swing.JLabel();
         userImgLabel = new javax.swing.JLabel();
         jPanel24 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -147,6 +175,11 @@ public class ClientDashboard extends MyPanel {
         jLabel9 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(224, 224, 224));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         setLayout(null);
 
         panel1.setBackground(new java.awt.Color(224, 224, 224));
@@ -201,14 +234,14 @@ public class ClientDashboard extends MyPanel {
         numberIcon = numberIcon.getScaledInstance(10, 10, Image.SCALE_SMOOTH);
         studentNumber.setIcon(new ImageIcon(numberIcon));
 
-        locationLabel.setBackground(new java.awt.Color(255, 255, 255));
-        locationLabel.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        locationLabel.setForeground(new java.awt.Color(65, 78, 101));
-        locationLabel.setText("Location");
-        jPanel1.add(locationLabel);
-        locationIcon = Utilities.changeImageColor(locationIcon, PalleteColors.DROPDOWN);
-        locationIcon = locationIcon.getScaledInstance(10, 10, Image.SCALE_SMOOTH);
-        locationLabel.setIcon(new ImageIcon(locationIcon));
+        bookCountLabel.setBackground(new java.awt.Color(255, 255, 255));
+        bookCountLabel.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        bookCountLabel.setForeground(new java.awt.Color(65, 78, 101));
+        bookCountLabel.setText("Total Books");
+        jPanel1.add(bookCountLabel);
+        bookIcon = Utilities.changeImageColor(bookIcon, PalleteColors.DROPDOWN);
+        bookIcon = bookIcon.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        bookCountLabel.setIcon(new ImageIcon(bookIcon));
 
         jPanel23.add(jPanel1, java.awt.BorderLayout.EAST);
 
@@ -256,7 +289,7 @@ public class ClientDashboard extends MyPanel {
         jLabel8.setBackground(new java.awt.Color(65, 78, 101));
         jLabel8.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("     Recently Added Books");
+        jLabel8.setText("     Recently Added Book");
         jPanel3.add(jLabel8, java.awt.BorderLayout.WEST);
 
         arrow.setText("arrow");
@@ -271,18 +304,18 @@ public class ClientDashboard extends MyPanel {
         recentBooksPanel.add(jPanel3, java.awt.BorderLayout.NORTH);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setLayout(new java.awt.BorderLayout());
+        jPanel5.setLayout(new java.awt.GridBagLayout());
 
         jLabel9.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(120, 120, 120));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("No Recent Books");
-        jPanel5.add(jLabel9, java.awt.BorderLayout.CENTER);
+        jPanel5.add(jLabel9, new java.awt.GridBagConstraints());
 
         recentBooksPanel.add(jPanel5, java.awt.BorderLayout.CENTER);
 
         add(recentBooksPanel);
-        recentBooksPanel.setBounds(530, 90, 410, 350);
+        recentBooksPanel.setBounds(530, 90, 410, 460);
         recentBooksPanel.setBorder(new RoundedBorder(4,0));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -300,6 +333,10 @@ public class ClientDashboard extends MyPanel {
 
     }//GEN-LAST:event_arrowActionPerformed
 
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        refreshItems();
+    }//GEN-LAST:event_formComponentShown
+
     @Override
     public void refreshItems() {
         setDashboardItems();
@@ -311,6 +348,7 @@ public class ClientDashboard extends MyPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton arrow;
+    private javax.swing.JLabel bookCountLabel;
     private javax.swing.JLabel dateJoinedLabel;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel fullNameLabel;
@@ -324,7 +362,6 @@ public class ClientDashboard extends MyPanel {
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JLabel locationLabel;
     private java.awt.Panel panel1;
     private javax.swing.JPanel recentBooksPanel;
     private javax.swing.JLabel studentNumber;

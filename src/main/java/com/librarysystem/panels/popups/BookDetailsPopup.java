@@ -49,7 +49,11 @@ public class BookDetailsPopup extends JDialog{
         String day = Integer.toString(dateWritten.getDayOfMonth());
         String year = Integer.toString(dateWritten.getYear());
         String date = month + ", " + day + " " + year;
-        datePublished.setText("Written by : " + date);
+        datePublished.setText("Date Published : " + date);
+        
+        String availability = dateWritten.getMonth().toString().toLowerCase();
+        availability = Character.toString(Character.toUpperCase(availability.charAt(0))) + availability.substring(1, availability.length());
+        availabilityLabel.setText("Availability : " +availability);
         changeButton(backButton);
         
         jPanel10.setBackground(PalleteColors.SIDEBAR_MAIN_COLOR);
@@ -91,6 +95,7 @@ public class BookDetailsPopup extends JDialog{
         title = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         icon = new javax.swing.JLabel();
+        availabilityLabel = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -175,6 +180,12 @@ public class BookDetailsPopup extends JDialog{
         jPanel9.add(jPanel1);
         jPanel1.setBounds(10, 100, 250, 290);
 
+        availabilityLabel.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        availabilityLabel.setForeground(new java.awt.Color(0, 0, 0));
+        availabilityLabel.setText("Availability : ");
+        jPanel9.add(availabilityLabel);
+        availabilityLabel.setBounds(11, 440, 240, 15);
+
         getContentPane().add(jPanel9, java.awt.BorderLayout.CENTER);
 
         jPanel10.setPreferredSize(new java.awt.Dimension(5, 5));
@@ -249,6 +260,7 @@ public class BookDetailsPopup extends JDialog{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToListButton;
     private javax.swing.JLabel author;
+    private javax.swing.JLabel availabilityLabel;
     private javax.swing.JButton backButton;
     private javax.swing.JLabel datePublished;
     private javax.swing.JTextArea description;

@@ -31,7 +31,7 @@ import javax.swing.SwingUtilities;
 import com.librarysystem.handlers.Utilities;
 import com.librarysystem.objects.Book;
 import com.librarysystem.objects.Category;
-import com.librarysystem.objects.components.Dropdown;
+import com.librarysystem.panels.popups.Dropdown;
 import com.librarysystem.objects.buttons.ImageButton;
 import com.librarysystem.objects.ui.PalleteColors;
 import com.librarysystem.objects.User;

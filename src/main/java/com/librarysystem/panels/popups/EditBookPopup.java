@@ -287,7 +287,7 @@ public class EditBookPopup extends JDialog{
         jPanel13 = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(224, 224, 224));
-        setPreferredSize(new java.awt.Dimension(589, 563));
+        setPreferredSize(new java.awt.Dimension(589, 643));
 
         jPanel9.setBackground(new java.awt.Color(224, 224, 224));
         jPanel9.setLayout(null);
@@ -824,9 +824,6 @@ public class EditBookPopup extends JDialog{
             return;
         }
         
-        bookIconImg = bookIconImg.getScaledInstance(130, 174, Image.SCALE_SMOOTH);
-        System.out.println("");
-        
         Book newBook = new Book(new ImageIcon(bookIconImg).getImage(),bookId,title,author,tagID,description,bookStatus,dateSelected,Timestamp.valueOf(LocalDateTime.now()),maxDaysAdminBorrowed,maxDaysUserBorrowed,totalAmmount,ammountLeft,book.isImageDefault());
 
         BookHandler.updateBook(newBook, book.getBookID());
@@ -874,8 +871,8 @@ public class EditBookPopup extends JDialog{
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             bookIconImg = new ImageIcon(selectedFile.getAbsolutePath()).getImage();
-            bookIconImg = bookIconImg.getScaledInstance(bookIconLabel.getPreferredSize().width, bookIconLabel.getPreferredSize().height, Image.SCALE_SMOOTH);
-            bookIconLabel.setIcon(new ImageIcon(bookIconImg));
+            Image bookIconImgResized = bookIconImg.getScaledInstance(bookIconLabel.getPreferredSize().width, bookIconLabel.getPreferredSize().height, Image.SCALE_SMOOTH);
+            bookIconLabel.setIcon(new ImageIcon(bookIconImgResized));
             bookIconLabel.setBorder(new RoundedBorder(8,1));
             changedImage = true;
             book.setIsDefaultImage(false);

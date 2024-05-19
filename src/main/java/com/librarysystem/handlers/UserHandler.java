@@ -378,8 +378,7 @@ public final class UserHandler implements ObjectHandler{
         try{
             User user = usersList.stream().filter(email -> email.getEmail().equals(username)).findFirst().get();
             if (Utilities.verifyPassword(user.getPassword(), password)) {
-                currentUser = user;
-                LibrarySystem.changeUser(user);
+                changeUser(user);
                 return true;
             }
         }
@@ -387,6 +386,16 @@ public final class UserHandler implements ObjectHandler{
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, e);
         }
         JOptionPane.showMessageDialog(new JFrame(), "Invalid User or Password");
+        return false;
+    }
+    
+    public static boolean changeUser(User user){
+        try{
+            currentUser = user;
+            LibrarySystem.changeUser(user);
+            return true;
+        }
+        catch(Exception e){}
         return false;
     }
     

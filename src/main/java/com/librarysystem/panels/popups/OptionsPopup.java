@@ -158,7 +158,7 @@ public class OptionsPopup extends JDialog {
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
 
-        setPreferredSize(new java.awt.Dimension(980, 620));
+        setPreferredSize(new java.awt.Dimension(840, 620));
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setLayout(new java.awt.BorderLayout());
@@ -175,12 +175,13 @@ public class OptionsPopup extends JDialog {
         jPanel1.add(profileBtn);
 
         settingsBtn.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        settingsBtn.setText("Delete Account");
+        settingsBtn.setText("Password");
         settingsBtn.setPreferredSize(new java.awt.Dimension(140, 50));
         settingsBtn.addActionListener(this::settingsBtnActionPerformed);
         jPanel1.add(settingsBtn);
 
         jPanel9.add(jPanel1, java.awt.BorderLayout.WEST);
+        jPanel1.setVisible(false);
 
         cardPanel.setBackground(new java.awt.Color(255, 255, 255));
         cardPanel.setLayout(new java.awt.CardLayout());
@@ -195,7 +196,7 @@ public class OptionsPopup extends JDialog {
         backButton.setText("jButton1");
         backButton.setPreferredSize(new java.awt.Dimension(30, 23));
         accountPanel.add(backButton);
-        backButton.setBounds(801, 0, 30, 23);
+        backButton.setBounds(660, 0, 30, 23);
 
         cardPanel.add(accountPanel, "ACCOUNT");
 
@@ -210,7 +211,7 @@ public class OptionsPopup extends JDialog {
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 980, Short.MAX_VALUE)
+            .addGap(0, 840, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,7 +227,7 @@ public class OptionsPopup extends JDialog {
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 980, Short.MAX_VALUE)
+            .addGap(0, 840, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,19 +269,19 @@ public class OptionsPopup extends JDialog {
         getContentPane().add(jPanel13, java.awt.BorderLayout.WEST);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileBtnActionPerformed
-        settingsBtn.setSelected(false);
-        settingsBtn.setEnabled(true);
-        profileBtn.setEnabled(false);
-        layout.show(cardPanel, OptionsPanels.PROFILE.name());
-    }//GEN-LAST:event_profileBtnActionPerformed
-
     private void settingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBtnActionPerformed
         profileBtn.setSelected(false);
         profileBtn.setEnabled(true);
         settingsBtn.setEnabled(false);
         layout.show(cardPanel, OptionsPanels.ACCOUNT.name());
     }//GEN-LAST:event_settingsBtnActionPerformed
+
+    private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileBtnActionPerformed
+        settingsBtn.setSelected(false);
+        settingsBtn.setEnabled(true);
+        profileBtn.setEnabled(false);
+        layout.show(cardPanel, OptionsPanels.PROFILE.name());
+    }//GEN-LAST:event_profileBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

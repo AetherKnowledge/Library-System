@@ -35,11 +35,11 @@ public final class BookHandler implements ObjectHandler{
         booksList = OfflineHandler.loadBooksOffline();
         if (booksList.isEmpty()) BookHandler.loadBooksOnline();
         
-        if (booksList.isEmpty()) {
-            BookHandler.addStandardBooks();
-            CategoryHandler.updateCategory(CategoryHandler.getCategoryList().get(2));
-            CategoryHandler.updateCategory(CategoryHandler.getCategoryList().get(8));
-        }
+//        if (booksList.isEmpty()) {
+//            BookHandler.addStandardBooks();
+//            CategoryHandler.updateCategory(CategoryHandler.getCategoryList().get(2));
+//            CategoryHandler.updateCategory(CategoryHandler.getCategoryList().get(8));
+//        }
         hasStarted = true;
     }
     

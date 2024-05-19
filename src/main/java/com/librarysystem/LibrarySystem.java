@@ -22,6 +22,7 @@ import com.librarysystem.handlers.IssuedBooksHandler;
 import com.librarysystem.handlers.ObjectHandler;
 import com.librarysystem.handlers.OfflineHandler;
 import com.librarysystem.handlers.UserHandler;
+import com.librarysystem.panels.AdminDashboard;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -56,6 +57,7 @@ public class LibrarySystem{
                 
             }
             catch (SQLException e){
+                Logger.getLogger(LibrarySystem.class.getName()).log(Level.SEVERE, null, e);
                 loadOffline();
             }
         });
@@ -82,19 +84,20 @@ public class LibrarySystem{
         
         long startTime = System.currentTimeMillis();
         
-        ExecutorService executor = Executors.newFixedThreadPool(5);
-        executor.submit(() -> startManager((new UserHandler())));
-        executor.submit(() -> startManager((new CategoryHandler())));
-        executor.submit(() -> startManager((new BookHandler())));
-        executor.submit(() -> startManager((new IssuedBooksHandler())));
-        executor.submit(() -> startManager((new GraphHandler())));
-        
-        synchronized (timeLock) {
-            while(!UserHandler.hasStarted() || !BookHandler.hasStarted() || !CategoryHandler.hasStarted() || !IssuedBooksHandler.hasStarted() || !GraphHandler.hasStarted()){
-                try{
-                    timeLock.wait();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(LibrarySystem.class.getName()).log(Level.SEVERE, null, ex);
+        try (ExecutorService executor = Executors.newFixedThreadPool(5)) {
+            executor.submit(() -> startManager((new UserHandler())));
+            executor.submit(() -> startManager((new CategoryHandler())));
+            executor.submit(() -> startManager((new BookHandler())));
+            executor.submit(() -> startManager((new IssuedBooksHandler())));
+            executor.submit(() -> startManager((new GraphHandler())));
+            
+            synchronized (timeLock) {
+                while(!UserHandler.hasStarted() || !BookHandler.hasStarted() || !CategoryHandler.hasStarted() || !IssuedBooksHandler.hasStarted() || !GraphHandler.hasStarted()){
+                    try{
+                        timeLock.wait();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(LibrarySystem.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }
@@ -152,7 +155,11 @@ public class LibrarySystem{
     public static void checkSQLUpdates(){
         
         System.out.println("Active Threads : " + Thread.activeCount());
-        
+//        Thread updateOnlineStatus = new Thread(()->{
+//            
+//        });
+//        updateOnlineStatus.start();
+//        
         if (updating || UserHandler.isUsersUpdating() || BookHandler.isBookUpdating() || CategoryHandler.isCategoryUpdating() || IssuedBooksHandler.isIssuedBooksUpdating() || GraphHandler.isGraphUpdating()) {
             System.out.println("Updating data please wait");
             return;
@@ -160,6 +167,7 @@ public class LibrarySystem{
         
         Thread sqlUpdateThread = new Thread(() -> {
             updating = true;
+            
             if (UserHandler.getCurrentUser() != null) {
                 UserHandler.updateOnlineStatus(UserHandler.getCurrentUser());
                 System.out.println(UserHandler.getCurrentUser().getFullName() + " is Online.");
@@ -172,13 +180,17 @@ public class LibrarySystem{
             if (IssuedBooksHandler.hasIssuedBookUpdated()) hasUpdated = true;
             if (UserHandler.hasUsersUpdated()) hasUpdated = true;
             if (GraphHandler.hasGraphUpdated()) hasUpdated = true;
-            if (UserHandler.updateAllOnlineUsers()) hasUpdated = true;
+            
+            boolean usersUpdated = false;
+            if (UserHandler.updateAllOnlineUsers()) usersUpdated = true;
             int newOnlineCount = UserHandler.getOnlineCount();
             if (onlineCount != newOnlineCount) {
                 onlineCount = newOnlineCount;
-                
-                hasUpdated = true;
+                usersUpdated = true;
                 System.out.println("Online Count Changed");
+            }
+            if (usersUpdated && Frame.getCurrentPanel() instanceof AdminDashboard) {
+                updateData();
             }
             
             if (hasUpdated) {

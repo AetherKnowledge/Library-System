@@ -274,6 +274,7 @@ public class ProfileOptions extends javax.swing.JPanel {
             }
         };
         backButton = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(830, 610));
@@ -567,6 +568,11 @@ public class ProfileOptions extends javax.swing.JPanel {
         backButton.setPreferredSize(new java.awt.Dimension(30, 23));
         add(backButton);
         backButton.setBounds(801, 0, 30, 23);
+
+        jSeparator1.setBackground(new java.awt.Color(204, 204, 204));
+        jSeparator1.setForeground(new java.awt.Color(204, 204, 204));
+        add(jSeparator1);
+        jSeparator1.setBounds(0, 540, 830, 10);
     }// </editor-fold>//GEN-END:initComponents
 
     private void uploadImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadImageButtonActionPerformed
@@ -585,8 +591,8 @@ public class ProfileOptions extends javax.swing.JPanel {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             userImg = new ImageIcon(selectedFile.getAbsolutePath()).getImage();
-            userImg = userImg.getScaledInstance(userImgLabel.getWidth(), userImgLabel.getHeight(), Image.SCALE_SMOOTH);
-            userImgLabel.setIcon(new ImageIcon(userImg));
+            Image userImgForLabel = userImg.getScaledInstance(userImgLabel.getWidth(), userImgLabel.getHeight(), Image.SCALE_SMOOTH);
+            userImgLabel.setIcon(new ImageIcon(userImgForLabel));
             user.setIsImageDefault(false);
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
         } else {
@@ -618,6 +624,7 @@ public class ProfileOptions extends javax.swing.JPanel {
         String email = emailTextField.getText();
         String password = String.valueOf(passwordTextField.getPassword());
         String rePassword = String.valueOf(rePasswordTextField.getPassword());
+        boolean emptyPass = password.isEmpty() || password.equals("Password");
         
         if (!email.equals(user.getEmail()) && UserHandler.doesUserExist(email, "") ) {
             JOptionPane.showMessageDialog(new JFrame(), "Email already Exists.");
@@ -649,33 +656,31 @@ public class ProfileOptions extends javax.swing.JPanel {
             Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
-        else if (password.isEmpty() || password.equals("Password")) {
-            JOptionPane.showMessageDialog(new JFrame(), "Password Field Empty.");
-            Frame.getPopup().setAlwaysOnTop(true);
-            return;
-        }
-        else if (password.length() < 8) {
+        else if (!emptyPass && password.length() < 8) {
             JOptionPane.showMessageDialog(new JFrame(), "Password must be greater than 8 characters.");
             Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
-        else if (!containsSpecial(password)) {
+        else if (!emptyPass && !containsSpecial(password)) {
             JOptionPane.showMessageDialog(new JFrame(), "Password must contain special character.");
             Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
-        else if (!password.equals(rePassword)) {
+        else if (!emptyPass && !password.equals(rePassword)) {
             JOptionPane.showMessageDialog(new JFrame(), "Password not the same.");
             Frame.getPopup().setAlwaysOnTop(true);
             return;
         }
         
         password = Utilities.toBcrypt(passwordTextField.getPassword());
+        if (emptyPass) {
+            password = user.getPassword();
+        }
+        
         User newUser = new User(User.UserType.USER, email, password,fullName,studentNum,userImg,user.getDateJoined(),LocalDateTime.now(),user.isImageDefault());
         
         UserHandler.updateUser(newUser,user.getEmail());
-        
-        if (UserHandler.isLoginSuccessful(email, passwordTextField.getPassword())) {
+        if (UserHandler.changeUser(newUser)) {
             JOptionPane.showMessageDialog(new JFrame(), "User changed successful");
         }
         
@@ -730,6 +735,7 @@ public class ProfileOptions extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JPasswordField rePasswordTextField;
     private javax.swing.JButton signInButton;
