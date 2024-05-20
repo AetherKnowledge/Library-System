@@ -2,6 +2,7 @@
 package com.librarysystem.panels.popups;
 
 import com.librarysystem.Frame;
+import com.librarysystem.handlers.IssuedBooksHandler;
 import com.librarysystem.handlers.UserHandler;
 import com.librarysystem.handlers.Utilities;
 import javax.swing.JDialog;
@@ -28,7 +29,7 @@ public class UserDetailsPopup extends JDialog{
     Image emailIcon = Icons.emailIcon.getImage();
     Image person = Utilities.getImage("/textures/user.png").getImage();
     Image numberIcon = Utilities.getImage("/textures/number.png").getImage();
-    Image locationIcon = Utilities.getImage("/textures/location.png").getImage();
+    Image booksIcon = Utilities.getImage("/textures/books.png").getImage();
     Image calendarIcon = Utilities.getImage("/textures/calendar.png").getImage();
     Image ayaya = Utilities.getImage("/textures/ayaya.png").getImage();
     private final User user;
@@ -64,7 +65,7 @@ public class UserDetailsPopup extends JDialog{
         fullNameLabel.setText(user.getFullName());
         emailLabel.setText(user.getEmail());
         studentNumber.setText(user.getStudentNumber());
-        locationLabel.setText("Philippines");
+        bookCountLabel.setText(Integer.toString(IssuedBooksHandler.getIssuedBooksCountFromUser(user.getEmail())));
         userImgLabel.setIcon(new ImageIcon(userIcon));
         dateJoinedLabel.setText(monthResized + " " + date.getDayOfMonth() + ", " + date.getYear());
         
@@ -97,7 +98,7 @@ public class UserDetailsPopup extends JDialog{
         fullNameLabel = new javax.swing.JLabel();
         emailLabel = new javax.swing.JLabel();
         studentNumber = new javax.swing.JLabel();
-        locationLabel = new javax.swing.JLabel();
+        bookCountLabel = new javax.swing.JLabel();
         userImgLabel = new javax.swing.JLabel();
         jPanel24 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -183,14 +184,14 @@ public class UserDetailsPopup extends JDialog{
         numberIcon = numberIcon.getScaledInstance(10, 10, Image.SCALE_SMOOTH);
         studentNumber.setIcon(new ImageIcon(numberIcon));
 
-        locationLabel.setBackground(new java.awt.Color(255, 255, 255));
-        locationLabel.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        locationLabel.setForeground(new java.awt.Color(65, 78, 101));
-        locationLabel.setText("Location");
-        jPanel1.add(locationLabel);
-        locationIcon = Utilities.changeImageColor(locationIcon, PalleteColors.DROPDOWN);
-        locationIcon = locationIcon.getScaledInstance(10, 10, Image.SCALE_SMOOTH);
-        locationLabel.setIcon(new ImageIcon(locationIcon));
+        bookCountLabel.setBackground(new java.awt.Color(255, 255, 255));
+        bookCountLabel.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        bookCountLabel.setForeground(new java.awt.Color(65, 78, 101));
+        bookCountLabel.setText("Total Books");
+        jPanel1.add(bookCountLabel);
+        booksIcon = Utilities.changeImageColor(booksIcon, PalleteColors.DROPDOWN);
+        booksIcon = booksIcon.getScaledInstance(10, 10, Image.SCALE_SMOOTH);
+        bookCountLabel.setIcon(new ImageIcon(booksIcon));
 
         jPanel23.add(jPanel1, java.awt.BorderLayout.EAST);
 
@@ -321,6 +322,7 @@ public class UserDetailsPopup extends JDialog{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
+    private javax.swing.JLabel bookCountLabel;
     private javax.swing.JLabel dateJoinedLabel;
     private javax.swing.JButton demoteBtn;
     private javax.swing.JLabel emailLabel;
@@ -334,7 +336,6 @@ public class UserDetailsPopup extends JDialog{
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JLabel locationLabel;
     private javax.swing.JButton promoteBtn;
     private javax.swing.JLabel studentNumber;
     private javax.swing.JLabel tag;

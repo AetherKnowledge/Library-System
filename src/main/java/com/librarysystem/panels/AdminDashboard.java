@@ -39,7 +39,7 @@ public class AdminDashboard extends MyPanel{
             }
         });
         
-        addBooksGraph();
+//        addBooksGraph();
     }
     
     @Override
@@ -52,6 +52,10 @@ public class AdminDashboard extends MyPanel{
     }
     
     private void updateBooksGraph(){
+        if (booksChart == null) {
+            addBooksGraph();
+        }
+        
         ArrayList<GraphData> graphData = GraphHandler.getGraphData();
         double[][] data = new double[4][graphData.size()];
         for (int i = 0; i < graphData.size(); i++) {

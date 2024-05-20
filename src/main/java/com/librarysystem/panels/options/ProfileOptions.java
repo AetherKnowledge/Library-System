@@ -576,6 +576,7 @@ public class ProfileOptions extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void uploadImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadImageButtonActionPerformed
+        Frame.getPopup().setAlwaysOnTop(false);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
@@ -598,6 +599,7 @@ public class ProfileOptions extends javax.swing.JPanel {
         } else {
             System.out.println("No file selected.");
         }
+        Frame.getPopup().setAlwaysOnTop(true);
     }//GEN-LAST:event_uploadImageButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed

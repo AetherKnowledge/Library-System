@@ -83,6 +83,8 @@ public class CategoryList extends MyPanel {
         
         topPanel.setSize(getWidth() - 70, 50);
         categoryMainPanel.setSize(getWidth() - 70, getHeight() - 190); 
+        jPanel6.setLocation(topPanel.getWidth() - 180, jPanel6.getY());
+        
         int categoryWidth = ((65 * categories.size()));
         
         boolean hasScrollWheel = categories.size() * 65 < jPanel15.getHeight();
@@ -160,12 +162,13 @@ public class CategoryList extends MyPanel {
         setLayout(null);
 
         topPanel.setBackground(new java.awt.Color(255, 255, 255));
-        topPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        topPanel.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Category Data Table");
-        topPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 14, -1, 20));
+        topPanel.add(jLabel1);
+        jLabel1.setBounds(50, 14, 107, 20);
 
         refreshButton.setBackground(new java.awt.Color(255, 255, 255));
         refreshButton.setForeground(new java.awt.Color(0, 0, 0));
@@ -175,7 +178,8 @@ public class CategoryList extends MyPanel {
                 refreshButtonActionPerformed(evt);
             }
         });
-        topPanel.add(refreshButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
+        topPanel.add(refreshButton);
+        refreshButton.setBounds(10, 10, 30, 30);
         refreshButton.setBorder(new RoundedBorder(8,1));
 
         refreshButton.setText("");
@@ -226,7 +230,8 @@ public class CategoryList extends MyPanel {
             }
         });
 
-        topPanel.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 160, 30));
+        topPanel.add(jPanel5);
+        jPanel5.setBounds(170, 10, 160, 30);
         jPanel5.setBorder(new RoundedBorder(8,1));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -254,7 +259,8 @@ public class CategoryList extends MyPanel {
         });
         jPanel6.add(userTypeSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 5, -1, -1));
 
-        topPanel.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 10, 160, 30));
+        topPanel.add(jPanel6);
+        jPanel6.setBounds(730, 10, 160, 30);
         jPanel6.setBorder(new RoundedBorder(8,1));
 
         add(topPanel);
