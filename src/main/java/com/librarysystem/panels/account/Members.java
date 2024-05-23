@@ -93,7 +93,7 @@ public class Members extends MyPanel {
         int userListLayers = (userList.getComponentCount() * 267)/userListWidth + 1;
         int userListHeight = (userListLayers * (90) + 5);
         
-        userList.setPreferredSize(new Dimension(userListWidth, userListHeight));
+        userList.setPreferredSize(new Dimension(userList.getWidth() - 15, userListHeight));
         this.revalidate();
         this.repaint();
     }    

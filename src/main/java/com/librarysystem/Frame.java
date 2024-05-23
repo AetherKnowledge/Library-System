@@ -124,7 +124,9 @@ public class Frame extends JFrame implements ComponentListener{
     public void createPanels(){
         
         Thread thread = new Thread(() -> {
-
+            
+            long startTime = System.currentTimeMillis();
+            
             dropdown = new Dropdown();
             dropdown.setVisible(false);
             layeredPane.add(dropdown,Integer.valueOf(2));
@@ -132,7 +134,14 @@ public class Frame extends JFrame implements ComponentListener{
             sideBar = new Sidebar();
             sideBar.setVisible(false);
             this.add(sideBar,BorderLayout.WEST);
+            
+            adminDashboard = new AdminDashboard();
+            framePanel.add(PanelTypes.ADMINDASHBOARD.name(),adminDashboard);
 
+            clientDasboard = new ClientDashboard();
+            framePanel.add(PanelTypes.CLIENTDASHBOARD.name(),clientDasboard);
+            
+            panelsLoaded = true;
             bookListPanel = new BookList();
             framePanel.add(PanelTypes.BOOKLIST.name(),bookListPanel);
 
@@ -160,28 +169,15 @@ public class Frame extends JFrame implements ComponentListener{
             history = new History();
             framePanel.add(PanelTypes.HISTORY.name(),history);
             
-        });
-        thread.start();
-        
-        Thread thread2 = new Thread(() -> {
-            long startTime = System.currentTimeMillis();
-            
-            adminDashboard = new AdminDashboard();
-            framePanel.add(PanelTypes.ADMINDASHBOARD.name(),adminDashboard);
-
-            clientDasboard = new ClientDashboard();
-            framePanel.add(PanelTypes.CLIENTDASHBOARD.name(),clientDasboard);
-            
-            panelsLoaded = true;
-            long endTime = System.currentTimeMillis();
-            System.out.println("Time taken to load panels : " + (endTime - startTime));
-            
             synchronized(LibrarySystem.getLock()){
                 LibrarySystem.getLock().notify();
             }
             
+            long endTime = System.currentTimeMillis();
+            System.out.println("Time taken to load panels : " + (endTime - startTime));
+            
         });
-        thread2.start();
+        thread.start();
         System.out.println("Active Threads : " + Thread.activeCount());
     }
     
@@ -386,15 +382,15 @@ public class Frame extends JFrame implements ComponentListener{
     }
     
     public void update(){
-        if (currentPanel != null) currentPanel.refreshItems();
+        Thread panelUpdateThread = new Thread(() -> {
+            if (currentPanel != null) currentPanel.refreshItems();
+        });
+        panelUpdateThread.start();
     }
         
     @Override
     public void componentResized(ComponentEvent e) {
-//        Thread resizeThread = new Thread(()->{
-            resize();
-//        });
-//        resizeThread.start();
+        resize();
     }
     
     public static <T> void makePopup(PopupType type, T obj){

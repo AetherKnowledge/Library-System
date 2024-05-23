@@ -538,10 +538,10 @@ public class EditBookPopup extends JDialog{
         jLabel18.setForeground(new java.awt.Color(145, 145, 145));
         jLabel18.setText("icn");
         jPanel15.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 12, -1, -1));
-        bookIconImg = Utilities.changeImageColor(calendarImg, PalleteColors.DROPDOWN);
-        bookIconImg = calendarImg.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        bookImg = Utilities.changeImageColor(bookImg, PalleteColors.DROPDOWN);
+        bookImg = bookImg.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         jLabel18.setText("");
-        jLabel18.setIcon(new ImageIcon(calendarImg));
+        jLabel18.setIcon(new ImageIcon(bookImg));
 
         totalAmmountSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 30, 1));
         totalAmmountSpinner.setEditor(new javax.swing.JSpinner.NumberEditor(totalAmmountSpinner, ""));
@@ -560,8 +560,8 @@ public class EditBookPopup extends JDialog{
         jPanel16.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 12, -1, -1));
         calendarImg = Utilities.changeImageColor(calendarImg, PalleteColors.DROPDOWN);
         calendarImg = calendarImg.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
-        jLabel16.setText("");
-        jLabel16.setIcon(new ImageIcon(calendarImg));
+        jLabel17.setText("");
+        jLabel17.setIcon(new ImageIcon(calendarImg));
 
         maxDaysAdminBorrowedSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 30, 1));
         maxDaysAdminBorrowedSpinner.setEditor(new javax.swing.JSpinner.NumberEditor(maxDaysAdminBorrowedSpinner, ""));

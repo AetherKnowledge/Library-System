@@ -206,7 +206,7 @@
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="numberIcon = Utilities.changeImageColor(numberIcon, PalleteColors.DROPDOWN);&#xa;numberIcon = numberIcon.getScaledInstance(10, 10, Image.SCALE_SMOOTH);&#xa;studentNumber.setIcon(new ImageIcon(numberIcon));"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JLabel" name="locationLabel">
+                <Component class="javax.swing.JLabel" name="bookCountLabel">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -217,10 +217,10 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="65" green="4e" red="41" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Location"/>
+                    <Property name="text" type="java.lang.String" value="Total Books"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="locationIcon = Utilities.changeImageColor(locationIcon, PalleteColors.DROPDOWN);&#xa;locationIcon = locationIcon.getScaledInstance(10, 10, Image.SCALE_SMOOTH);&#xa;locationLabel.setIcon(new ImageIcon(locationIcon));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="booksIcon = Utilities.changeImageColor(booksIcon, PalleteColors.DROPDOWN);&#xa;booksIcon = booksIcon.getScaledInstance(10, 10, Image.SCALE_SMOOTH);&#xa;bookCountLabel.setIcon(new ImageIcon(booksIcon));"/>
                   </AuxValues>
                 </Component>
               </SubComponents>

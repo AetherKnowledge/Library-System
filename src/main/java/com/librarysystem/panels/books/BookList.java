@@ -133,7 +133,7 @@ public class BookList extends MyPanel{
             bookListHeight = (bookListLayers * (currentBookList.get(0).getPreferredSize().height + 35));
         }
         
-        bookList.setPreferredSize(new Dimension(bookListWidth, bookListHeight));
+        bookList.setPreferredSize(new Dimension(bookList.getWidth() - 15, bookListHeight));
         this.revalidate();
         this.repaint();
         

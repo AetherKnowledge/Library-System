@@ -605,7 +605,7 @@
                     <Property name="text" type="java.lang.String" value="icn"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="bookIconImg = Utilities.changeImageColor(calendarImg, PalleteColors.DROPDOWN);&#xa;bookIconImg = calendarImg.getScaledInstance(15, 15, Image.SCALE_SMOOTH);&#xa;jLabel18.setText(&quot;&quot;);&#xa;jLabel18.setIcon(new ImageIcon(calendarImg));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="bookImg = Utilities.changeImageColor(bookImg, PalleteColors.DROPDOWN);&#xa;bookImg = bookImg.getScaledInstance(20, 20, Image.SCALE_SMOOTH);&#xa;jLabel18.setText(&quot;&quot;);&#xa;jLabel18.setIcon(new ImageIcon(bookImg));"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -660,7 +660,7 @@
                     <Property name="text" type="java.lang.String" value="icn"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="calendarImg = Utilities.changeImageColor(calendarImg, PalleteColors.DROPDOWN);&#xa;calendarImg = calendarImg.getScaledInstance(15, 15, Image.SCALE_SMOOTH);&#xa;jLabel16.setText(&quot;&quot;);&#xa;jLabel16.setIcon(new ImageIcon(calendarImg));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="calendarImg = Utilities.changeImageColor(calendarImg, PalleteColors.DROPDOWN);&#xa;calendarImg = calendarImg.getScaledInstance(15, 15, Image.SCALE_SMOOTH);&#xa;jLabel17.setText(&quot;&quot;);&#xa;jLabel17.setIcon(new ImageIcon(calendarImg));"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

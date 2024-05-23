@@ -131,18 +131,23 @@ public class AddCategory extends MyPanel {
     }
     
     @Override
-    public void resize() {}
+    public void resize() {
+        topPanel.setSize(getWidth() - 70, 50);
+        mainPanel.setSize(getWidth() - 70, 180);
+        jPanel6.setLocation(mainPanel.getWidth() - 210, jPanel6.getY());
+        addCategory.setLocation(mainPanel.getWidth() - 190, addCategory.getY());
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jButton3 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        topPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         categoryName = new javax.swing.JTextField();
@@ -171,32 +176,35 @@ public class AddCategory extends MyPanel {
                 formComponentShown(evt);
             }
         });
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setLayout(null);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        topPanel.setBackground(new java.awt.Color(255, 255, 255));
+        topPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Create Category");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 15, -1, 20));
+        topPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 15, -1, 20));
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 910, 50));
-        jPanel1.setBorder(new RoundedBorder(8,0));
+        add(topPanel);
+        topPanel.setBounds(30, 90, 910, 50);
+        topPanel.setBorder(new RoundedBorder(8,0));
 
         jLabel10.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(145, 145, 145));
         jLabel10.setText("Categories / add_category");
-        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
+        add(jLabel10);
+        jLabel10.setBounds(30, 50, 142, 15);
 
         jLabel13.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("Add New Category");
-        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+        add(jLabel13);
+        jLabel13.setBounds(30, 10, 203, 29);
         jLabel13.setForeground(PalleteColors.SIDEBAR_MAIN_COLOR);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setLayout(null);
+        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
+        mainPanel.setLayout(null);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(null);
@@ -247,7 +255,7 @@ public class AddCategory extends MyPanel {
         jPanel4.add(jLabel2);
         jLabel2.setBounds(10, 8, 90, 15);
 
-        jPanel2.add(jPanel4);
+        mainPanel.add(jPanel4);
         jPanel4.setBounds(20, 90, 440, 60);
         jPanel4.setBorder(new RoundedBorder(8,1));
 
@@ -261,7 +269,7 @@ public class AddCategory extends MyPanel {
                 addCategoryActionPerformed(evt);
             }
         });
-        jPanel2.add(addCategory);
+        mainPanel.add(addCategory);
         addCategory.setBounds(730, 110, 130, 40);
         addCategory.setBorder(new RoundedBorder(8,1));
 
@@ -297,7 +305,7 @@ public class AddCategory extends MyPanel {
         jPanel5.add(categorySelector);
         categorySelector.setBounds(40, 30, 380, 21);
 
-        jPanel2.add(jPanel5);
+        mainPanel.add(jPanel5);
         jPanel5.setBounds(20, 20, 440, 60);
         jPanel5.setBorder(new RoundedBorder(8,1));
 
@@ -326,12 +334,13 @@ public class AddCategory extends MyPanel {
         jPanel6.add(categoryNumSelector);
         categoryNumSelector.setBounds(30, 30, 130, 21);
 
-        jPanel2.add(jPanel6);
+        mainPanel.add(jPanel6);
         jPanel6.setBounds(700, 30, 170, 60);
         jPanel6.setBorder(new RoundedBorder(8,1));
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 910, 180));
-        jPanel2.setBorder(new RoundedBorder(8,0));
+        add(mainPanel);
+        mainPanel.setBounds(30, 150, 910, 180);
+        mainPanel.setBorder(new RoundedBorder(8,0));
     }// </editor-fold>//GEN-END:initComponents
 
     private void categoryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryNameActionPerformed
@@ -344,6 +353,7 @@ public class AddCategory extends MyPanel {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         refreshItems();
+        resize();
     }//GEN-LAST:event_formComponentShown
 
     private void categorySelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categorySelectorActionPerformed
@@ -366,11 +376,11 @@ public class AddCategory extends MyPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
 
 
