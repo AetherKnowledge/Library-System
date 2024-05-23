@@ -110,7 +110,6 @@ public class IssuedBooks extends MyPanel {
     
     @Override
     public void resize(){
-        
         topPanel.setSize(getWidth() - 70, 50);
         issuedBooksMainPanel.setSize(getWidth() - 70, getHeight() - 190); 
         jPanel6.setLocation(topPanel.getWidth() - 180, 10);

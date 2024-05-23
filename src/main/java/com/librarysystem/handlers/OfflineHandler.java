@@ -35,6 +35,7 @@ public class OfflineHandler {
         try {
             File file = new File(USERS_PATH);
             if (!file.exists()) {
+                if (!Files.exists(path)) Files.createDirectories(path);
                 System.out.println("File does not exist");
                 file.createNewFile();
             }

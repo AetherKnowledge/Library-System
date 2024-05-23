@@ -1,6 +1,7 @@
 
 package com.librarysystem.objects;
 
+import com.librarysystem.objects.ui.Icons;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -66,7 +67,8 @@ public class Book implements Serializable{
         this.isImageDefault = isImageDefault;
         
         try{
-            imageData = serializeImage(bookIcon);
+            if (bookIcon == null) imageData = serializeImage(Icons.noImageIcon.getImage());
+            else imageData = serializeImage(bookIcon);
         }
         catch(IOException e){
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, e);

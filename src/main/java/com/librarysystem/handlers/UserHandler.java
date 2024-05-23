@@ -366,12 +366,56 @@ public final class UserHandler implements ObjectHandler{
     }
     
     public static void addStandardUsers() {
+        usersUpdating = true;
         ImageIcon ayaya = Utilities.getImage("/textures/ayaya.png");
-        usersList.add(new User(User.UserType.ADMIN, "admin", Utilities.toBcrypt("admin".toCharArray()), "admin", "69420", ayaya.getImage(), LocalDateTime.now(), LocalDateTime.now(),false));
-        usersList.add(new User(User.UserType.USER, "user", Utilities.toBcrypt("user".toCharArray()), "user", "12345678", ayaya.getImage(), LocalDateTime.now(), LocalDateTime.now(),false));
-        for (User user : usersList) {
-            addUser(user);
+        addUserSilent(new User(User.UserType.ADMIN, "admin", Utilities.toBcrypt("admin".toCharArray()), "admin", "69420", ayaya.getImage(), LocalDateTime.now(), LocalDateTime.now(),false));
+        addUserSilent(new User(User.UserType.USER, "user", Utilities.toBcrypt("user".toCharArray()), "user", "12345678", ayaya.getImage(), LocalDateTime.now(), LocalDateTime.now(),false));
+        usersUpdating = false;
+    }
+    
+    public static void addUserSilent(User user){
+        usersUpdating = true;
+
+        try {
+            String email,password,studNum,fullName,userType;
+            int status;
+            byte[] imageData = Utilities.serializeImage(user.getIcon());
+            LocalDateTime dateJoined = user.getDateJoined();
+
+            email = user.getEmail();
+            password = user.getPassword();
+            studNum = user.getStudentNumber();
+            fullName = user.getFullName();
+            userType = user.getUserType().name();
+            status = 1;
+            
+            if (user.isImageDefault()) {
+                imageData = null;
+            }
+            
+            String queryRegister = "INSERT into user(email, password, imageData, studNum, fullName, dateJoined, userType, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            PreparedStatement st = con.prepareStatement(queryRegister);
+            st.setString(1, email);
+            st.setString(2, password);
+            st.setBytes(3, imageData);
+            st.setString(4, studNum);
+            st.setString(5, fullName);
+            st.setTimestamp(6, Timestamp.valueOf(dateJoined));
+            st.setString(7, userType);
+            st.setInt(8, status);
+            st.executeUpdate();
+            
+            System.out.println("User " + user.getUserName() + " added successfully");
+            usersList.add(user);
+            OfflineHandler.saveUsersOffline(usersList);
         }
+        catch (SQLException | IOException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), "Invalid Account","Error",0);
+        }
+        
+        usersUpdating = false;
     }
     
     public static boolean isLoginSuccessful(String username, char[] password) {
