@@ -32,7 +32,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import com.librarysystem.Frame;
 import com.librarysystem.LibrarySystem;
-import com.librarysystem.objects.Book;
 import com.librarysystem.objects.Category;
 import com.librarysystem.objects.IssuedBook;
 import com.librarysystem.objects.IssuedBook.BorrowedBookStatus;
@@ -48,6 +47,11 @@ import java.awt.Graphics;
 import java.awt.RenderingHints;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import javax.swing.JButton;
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -119,10 +123,26 @@ public class Utilities {
     }
     
     public static ArrayList<UserPanel> makeUserPanels(){
+        long startTime = System.currentTimeMillis();
         ArrayList<UserPanel> userPanels = new ArrayList<>();
-        for (User user : UserHandler.getUsersList()) {
-            userPanels.add(new UserPanel(user));
-        }
+        List<Future<UserPanel>> futures = new ArrayList<>();
+        ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        
+        UserHandler.getUsersList().forEach(user -> {
+            Callable<UserPanel> task = () -> new UserPanel(user);
+            futures.add(es.submit(task));
+        });
+        
+        futures.stream().forEach(future -> {
+            try {
+                userPanels.add(future.get());
+            } catch (InterruptedException | ExecutionException ex) {
+                Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        long endTime = System.currentTimeMillis();
+        System.out.println("Time taken to load books : " + (endTime - startTime));
+        
         return userPanels;
     }
     
@@ -164,11 +184,28 @@ public class Utilities {
         return returnedBooksPanel;
     }
     
-    public static ArrayList<BookPanel> makeBookPanels(){
+    public static ArrayList<BookPanel> makeBookPanels() {
+        long startTime = System.currentTimeMillis();
+        
         ArrayList<BookPanel> bookPanels = new ArrayList<>();
-        for (Book book : BookHandler.getBooksList()) {
-            bookPanels.add(new BookPanel(book));
-        }
+        List<Future<BookPanel>> futures = new ArrayList<>();
+        ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        
+        BookHandler.getBooksList().forEach(book -> {
+            Callable<BookPanel> task = () -> new BookPanel(book);
+            futures.add(es.submit(task));
+        });
+        
+        futures.forEach(future -> {
+            try {
+                bookPanels.add(future.get());
+            } catch (InterruptedException | ExecutionException ex) {
+                Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        long endTime = System.currentTimeMillis();
+        System.out.println("Time taken to load books : " + (endTime - startTime));
         return bookPanels;
     }
     

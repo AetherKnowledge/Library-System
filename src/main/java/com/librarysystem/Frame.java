@@ -142,9 +142,6 @@ public class Frame extends JFrame implements ComponentListener{
             framePanel.add(PanelTypes.CLIENTDASHBOARD.name(),clientDasboard);
             
             panelsLoaded = true;
-            long endTime = System.currentTimeMillis();
-            System.out.println("Time taken to load panels : " + (endTime - startTime));
-
             bookListPanel = new BookList();
             framePanel.add(PanelTypes.BOOKLIST.name(),bookListPanel);
 
@@ -175,6 +172,9 @@ public class Frame extends JFrame implements ComponentListener{
             synchronized(LibrarySystem.getLock()){
                 LibrarySystem.getLock().notify();
             }
+            
+            long endTime = System.currentTimeMillis();
+            System.out.println("Time taken to load panels : " + (endTime - startTime));
             
         });
         thread.start();
@@ -382,15 +382,15 @@ public class Frame extends JFrame implements ComponentListener{
     }
     
     public void update(){
-        if (currentPanel != null) currentPanel.refreshItems();
+        Thread panelUpdateThread = new Thread(() -> {
+            if (currentPanel != null) currentPanel.refreshItems();
+        });
+        panelUpdateThread.start();
     }
         
     @Override
     public void componentResized(ComponentEvent e) {
-//        Thread resizeThread = new Thread(()->{
-            resize();
-//        });
-//        resizeThread.start();
+        resize();
     }
     
     public static <T> void makePopup(PopupType type, T obj){
